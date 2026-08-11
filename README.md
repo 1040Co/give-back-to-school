@@ -1,2 +1,7 @@
-# give-back-to-school
-Connecting verified Philippine public school needs with people who want to give back - directly, safely and transparently
+# Give Back to School v0.4
+
+This build freezes the MVP model before database integration.
+
+Run: `npm install` then `npm run dev`.
+
+Source of truth: `docs/MVP_BLUEPRINT.md`.
