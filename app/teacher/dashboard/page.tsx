@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { redirect } from "next/navigation";
 
 import { createClient } from "../../../lib/supabase/server";
@@ -54,7 +56,7 @@ export default async function TeacherDashboardPage() {
 
       .from("schools")
 
-      .select("school_name, municipality, province")
+      .select("school_name, municipality, province, status")
 
       .eq("id", teacherProfile.school_id)
 
@@ -78,14 +80,14 @@ export default async function TeacherDashboardPage() {
 <h2>Complete your teacher profile</h2>
 <p className="muted">
 
-            Your account is active, but your teacher profile has not been
+            Add your school and teaching information before submitting teacher
 
-            completed yet.
+            verification.
 </p>
-<a className="btn" href="/teacher/profile">
+<Link className="btn" href="/teacher/profile">
 
             Complete teacher profile
-</a>
+</Link>
 </div>
 
       ) : (
@@ -100,16 +102,68 @@ export default async function TeacherDashboardPage() {
 </p>
 
             {teacherProfile.verification_status === "verified" ? (
+<>
 <p className="muted">
 
-                Your teacher account is verified. You can submit a school need.
+                  Your teacher account is verified. You can now submit a school
+
+                  need.
 </p>
+<Link className="btn" href="/teacher/needs/new">
+
+                  Create a school need
+</Link>
+</>
+
+            ) : teacherProfile.verification_status === "pending" ? (
+<p className="muted">
+
+                Your verification has been submitted and is waiting for admin
+
+                review.
+</p>
+
+            ) : teacherProfile.verification_status ===
+
+              "correction_required" ? (
+<>
+<p className="muted">
+
+                  Your verification needs a correction before it can be
+
+                  approved.
+</p>
+<Link className="btn" href="/teacher/verification">
+
+                  Resubmit verification
+</Link>
+</>
+
+            ) : teacherProfile.verification_status === "rejected" ? (
+<>
+<p className="muted">
+
+                  Your previous verification was not approved. You may submit a
+
+                  new verification request.
+</p>
+<Link className="btn" href="/teacher/verification">
+
+                  Submit verification again
+</Link>
+</>
 
             ) : (
+<>
 <p className="muted">
 
-                Verification is required before you can submit a school need.
+                  Verification is required before you can submit a school need.
 </p>
+<Link className="btn" href="/teacher/verification">
+
+                  Submit teacher verification
+</Link>
+</>
 
             )}
 </div>
@@ -121,12 +175,26 @@ export default async function TeacherDashboardPage() {
 <p>{school.school_name}</p>
 <p className="muted">
 
-                  {school.municipality}, {school.province}
+                  {[school.municipality, school.province]
+
+                    .filter(Boolean)
+
+                    .join(", ")}
+</p>
+<p className="muted">
+
+                  School status: <strong>{school.status}</strong>
 </p>
 </>
 
             ) : (
+<>
 <p className="muted">No school linked yet.</p>
+<Link className="btn" href="/teacher/profile">
+
+                  Add school information
+</Link>
+</>
 
             )}
 </div>
