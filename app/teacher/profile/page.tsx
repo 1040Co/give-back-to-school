@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { createClient } from "../../../lib/supabase/client";
 
@@ -23,6 +23,8 @@ export default function TeacherProfilePage() {
   const supabase = createClient();
 
   const router = useRouter();
+
+  const searchParams = useSearchParams();
 
   const [schools, setSchools] = useState<School[]>([]);
 
@@ -62,11 +64,19 @@ export default function TeacherProfilePage() {
 
       setSchools(data ?? []);
 
+      const schoolFromUrl = searchParams.get("school");
+
+      if (schoolFromUrl) {
+
+        setSchoolId(schoolFromUrl);
+
+      }
+
     }
 
     loadSchools();
 
-  }, [supabase]);
+  }, [supabase, searchParams]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 
@@ -161,6 +171,11 @@ export default function TeacherProfilePage() {
             ))}
 </select>
 </label>
+<p className="muted">
+
+          Can’t find your school?{" "}
+<a href="/teacher/school">Add your school</a>
+</p>
 <label>
 
           Position / teaching role
