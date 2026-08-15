@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { createClient } from "../../../lib/supabase/client";
 
@@ -23,8 +23,6 @@ export default function TeacherProfilePage() {
   const supabase = createClient();
 
   const router = useRouter();
-
-  const searchParams = useSearchParams();
 
   const [schools, setSchools] = useState<School[]>([]);
 
@@ -64,7 +62,9 @@ export default function TeacherProfilePage() {
 
       setSchools(data ?? []);
 
-      const schoolFromUrl = searchParams.get("school");
+      const params = new URLSearchParams(window.location.search);
+
+      const schoolFromUrl = params.get("school");
 
       if (schoolFromUrl) {
 
@@ -76,7 +76,7 @@ export default function TeacherProfilePage() {
 
     loadSchools();
 
-  }, [supabase, searchParams]);
+  }, [supabase]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 
