@@ -1,1 +1,27 @@
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#17211b;background:#fbfcfa}a{text-decoration:none;color:inherit}header{background:#fff;border-bottom:1px solid #e3e9e4}.nav{max-width:1100px;margin:auto;padding:16px 22px;display:flex;align-items:center;gap:20px}.brand{font-weight:900}.brand small{display:block;font-size:9px;letter-spacing:1.5px}.links{margin-left:auto;display:flex;gap:18px;font-size:14px}.btn{display:inline-block;padding:12px 17px;background:#245d3d;color:white;border-radius:9px;font-weight:700;border:0}.secondary{background:#edf3ee;color:#245d3d}.hero,.section,.page{max-width:1100px;margin:auto;padding:55px 22px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:42px;align-items:center;padding-top:75px}.hero h1{font-size:55px;line-height:1.02;letter-spacing:-2px;margin:12px 0}.hero p,.muted{color:#627067;line-height:1.65}.eyebrow{font-size:12px;letter-spacing:1.5px;font-weight:800;color:#4d735d;text-transform:uppercase}.card{background:#fff;border:1px solid #e0e7e1;border-radius:15px;padding:23px;box-shadow:0 7px 25px #1836220a}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.tag{background:#edf4ef;padding:6px 10px;border-radius:99px;font-size:12px;font-weight:700}.big{font-size:30px;font-weight:900}.status{color:#286443;font-weight:800}.callout{background:#edf5ef;border-left:4px solid #286443;padding:20px;margin:22px 0}.faq{padding:20px 0;border-bottom:1px solid #dfe6e0}.footer{background:#17251c;color:#e8eee9;margin-top:50px}.footer div{max-width:1100px;margin:auto;padding:35px 22px}@media(max-width:760px){.hero,.grid3{grid-template-columns:1fr}.hero h1{font-size:42px}.links{display:none}}
+/* v0.5 form layout fixes */
+form.card {
+ display: flex;
+ flex-direction: column;
+ gap: 18px;
+}
+form.card label {
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+}
+form.card input:not([type="checkbox"]),
+form.card select,
+form.card textarea {
+ width: 100%;
+ min-height: 44px;
+ padding: 10px 12px;
+}
+form.card input[type="checkbox"] {
+ width: auto;
+}
+form.card label:has(input[type="checkbox"]) {
+ flex-direction: row;
+ align-items: flex-start;
+ gap: 10px;
+}
