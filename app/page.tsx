@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { createClient } from "../lib/supabase/server";
+
 const sampleNeeds = [
 
   {
@@ -14,7 +16,7 @@ const sampleNeeds = [
 
     value: "₱3,600",
 
-    status: "Open",
+    status: "Sample",
 
   },
 
@@ -30,7 +32,7 @@ const sampleNeeds = [
 
     value: "₱4,250",
 
-    status: "Open",
+    status: "Sample",
 
   },
 
@@ -46,20 +48,76 @@ const sampleNeeds = [
 
     value: "₱2,800",
 
-    status: "Open",
+    status: "Sample",
 
   },
 
 ];
 
-export default function Home() {
+export default async function Home() {
+
+  const supabase = await createClient();
+
+  const [
+
+    verifiedSchoolsResult,
+
+    verifiedTeachersResult,
+
+    openNeedsResult,
+
+    completedNeedsResult,
+
+  ] = await Promise.all([
+
+    supabase
+
+      .from("schools")
+
+      .select("id", { count: "exact", head: true })
+
+      .eq("status", "verified"),
+
+    supabase
+
+      .from("teacher_profiles")
+
+      .select("id", { count: "exact", head: true })
+
+      .eq("verification_status", "verified"),
+
+    supabase
+
+      .from("needs")
+
+      .select("id", { count: "exact", head: true })
+
+      .eq("status", "approved"),
+
+    supabase
+
+      .from("needs")
+
+      .select("id", { count: "exact", head: true })
+
+      .eq("status", "completed"),
+
+  ]);
+
+  const verifiedSchools = verifiedSchoolsResult.count ?? 0;
+
+  const verifiedTeachers = verifiedTeachersResult.count ?? 0;
+
+  const openNeeds = openNeedsResult.count ?? 0;
+
+  const completedNeeds = completedNeedsResult.count ?? 0;
 
   return (
 <main>
 <section className="hero">
 <div>
 <div className="eyebrow">Give Back to School Philippines</div>
-<div className="pilot-badge">Pilot · Sample data</div>
+<div className="pilot-badge">Pilot</div>
 <h1>Help a classroom. See where it goes.</h1>
 <p className="hero-copy">
 
@@ -85,9 +143,11 @@ export default function Home() {
 <h2>Classroom giving stays direct.</h2>
 <p>
 
-            Teachers request specific goods. Givers provide those goods directly.
-            GBTS tracks the process and confirms receipt without holding money for
-            individual classroom requests.
+            Teachers request specific goods. Givers provide those goods
+
+            directly. GBTS tracks the process and confirms receipt without
+
+            holding money for individual classroom requests.
 </p>
 </div>
 </section>
@@ -97,23 +157,23 @@ export default function Home() {
 <div className="eyebrow">Pilot dashboard</div>
 <h2>Progress at a glance</h2>
 </div>
-<span className="sample-note">Sample figures for testing</span>
+<span className="sample-note">Live pilot data</span>
 </div>
 <div className="impact-grid">
 <div className="metric-card">
-<div className="metric-number">3</div>
+<div className="metric-number">{verifiedSchools}</div>
 <div className="metric-label">Verified schools</div>
 </div>
 <div className="metric-card">
-<div className="metric-number">6</div>
+<div className="metric-number">{verifiedTeachers}</div>
 <div className="metric-label">Verified teachers</div>
 </div>
 <div className="metric-card">
-<div className="metric-number">4</div>
+<div className="metric-number">{openNeeds}</div>
 <div className="metric-label">Open classroom needs</div>
 </div>
 <div className="metric-card">
-<div className="metric-number">2</div>
+<div className="metric-number">{completedNeeds}</div>
 <div className="metric-label">Needs completed</div>
 </div>
 </div>
@@ -121,10 +181,10 @@ export default function Home() {
 <section className="section">
 <div className="section-heading">
 <div>
-<div className="eyebrow">Current needs</div>
-<h2>Classrooms waiting for support</h2>
+<div className="eyebrow">Sample classroom needs</div>
+<h2>What giving through GBTS will look like</h2>
 </div>
-<Link href="/needs">View all needs →</Link>
+<Link href="/needs">View school needs →</Link>
 </div>
 <div className="needs-grid">
 
@@ -141,14 +201,17 @@ export default function Home() {
 <span>{need.learners} learners</span>
 <span>Physical goods only</span>
 </div>
-<Link className="text-link" href="/needs">
-
-                View need →
-</Link>
+<span className="text-link">Demo need</span>
 </article>
 
           ))}
 </div>
+<p className="sample-note" style={{ marginTop: "16px" }}>
+
+          These classroom cards are sample data for pilot testing. Live approved
+
+          requests will replace them as teachers begin submitting needs.
+</p>
 </section>
 <section className="section">
 <div className="eyebrow">Simple by design</div>
@@ -192,7 +255,10 @@ export default function Home() {
 <div className="transparency-list">
 <div>✓ Verified teachers only</div>
 <div>✓ Specific goods, not cash requests</div>
-<div>✓ GBTS does not collect or hold money for classroom requests</div>
+<div>
+
+            ✓ GBTS does not collect or hold money for classroom requests
+</div>
 <div>✓ Fulfilment and teacher receipt confirmation tracked</div>
 <div>✓ Private teacher and giver contact details stay protected</div>
 <div>✓ Admin review for verification, needs and disputes</div>
@@ -204,9 +270,9 @@ export default function Home() {
 <h2>Small needs can make a real classroom difference.</h2>
 <p className="muted">
 
-            We’re building the pilot now. Test the experience, explore the
+            We’re building the pilot now. Explore the platform, test the
 
-            sample needs, or register as a teacher.
+            experience, or register as a teacher.
 </p>
 </div>
 <div className="hero-actions">
