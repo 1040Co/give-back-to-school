@@ -82,12 +82,12 @@ export default function Home() {
 </div>
 <div className="hero-highlight">
 <span className="tag">How GBTS works</span>
-<h2>No donation money passes through GBTS.</h2>
+<h2>Classroom giving stays direct.</h2>
 <p>
 
-            Teachers request specific goods. Givers provide the goods directly.
-
-            The platform tracks the process and confirms receipt.
+            Teachers request specific goods. Givers provide those goods directly.
+            GBTS tracks the process and confirms receipt without holding money for
+            individual classroom requests.
 </p>
 </div>
 </section>
@@ -192,7 +192,7 @@ export default function Home() {
 <div className="transparency-list">
 <div>✓ Verified teachers only</div>
 <div>✓ Specific goods, not cash requests</div>
-<div>✓ GBTS does not receive donation money</div>
+<div>✓ GBTS does not collect or hold money for classroom requests</div>
 <div>✓ Fulfilment and teacher receipt confirmation tracked</div>
 <div>✓ Private teacher and giver contact details stay protected</div>
 <div>✓ Admin review for verification, needs and disputes</div>
