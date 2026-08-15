@@ -1,1 +1,169 @@
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#17211b;background:#fbfcfa}a{text-decoration:none;color:inherit}header{background:#fff;border-bottom:1px solid #e3e9e4}.nav{max-width:1100px;margin:auto;padding:16px 22px;display:flex;align-items:center;gap:20px}.brand{font-weight:900}.brand small{display:block;font-size:9px;letter-spacing:1.5px}.links{margin-left:auto;display:flex;gap:18px;font-size:14px}.btn{display:inline-block;padding:12px 17px;background:#245d3d;color:white;border-radius:9px;font-weight:700;border:0}.secondary{background:#edf3ee;color:#245d3d}.hero,.section,.page{max-width:1100px;margin:auto;padding:55px 22px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:42px;align-items:center;padding-top:75px}.hero h1{font-size:55px;line-height:1.02;letter-spacing:-2px;margin:12px 0}.hero p,.muted{color:#627067;line-height:1.65}.eyebrow{font-size:12px;letter-spacing:1.5px;font-weight:800;color:#4d735d;text-transform:uppercase}.card{background:#fff;border:1px solid #e0e7e1;border-radius:15px;padding:23px;box-shadow:0 7px 25px #1836220a}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.tag{background:#edf4ef;padding:6px 10px;border-radius:99px;font-size:12px;font-weight:700}.big{font-size:30px;font-weight:900}.status{color:#286443;font-weight:800}.callout{background:#edf5ef;border-left:4px solid #286443;padding:20px;margin:22px 0}.faq{padding:20px 0;border-bottom:1px solid #dfe6e0}.footer{background:#17251c;color:#e8eee9;margin-top:50px}.footer div{max-width:1100px;margin:auto;padding:35px 22px}@media(max-width:760px){.hero,.grid3{grid-template-columns:1fr}.hero h1{font-size:42px}.links{display:none}}
+* {
+ box-sizing: border-box;
+}
+html {
+ scroll-behavior: smooth;
+}
+body {
+ margin: 0;
+ font-family: Arial, Helvetica, sans-serif;
+ color: #17211b;
+ background: #f7f7f3;
+ line-height: 1.5;
+}
+a {
+ color: inherit;
+}
+header {
+ background: #ffffff;
+ border-bottom: 1px solid #dfe5df;
+}
+nav {
+ max-width: 1100px;
+ margin: 0 auto;
+ padding: 18px 24px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 24px;
+ flex-wrap: wrap;
+}
+nav a {
+ text-decoration: none;
+}
+.page {
+ width: min(100% - 32px, 1000px);
+ margin: 0 auto;
+ padding: 48px 0 72px;
+}
+.eyebrow {
+ margin-bottom: 10px;
+ color: #37624a;
+ font-size: 0.82rem;
+ font-weight: 700;
+ letter-spacing: 0.12em;
+ text-transform: uppercase;
+}
+h1 {
+ margin: 0 0 16px;
+ font-size: clamp(2rem, 5vw, 3.4rem);
+ line-height: 1.08;
+}
+h2,
+h3 {
+ margin-top: 0;
+ margin-bottom: 12px;
+}
+p {
+ margin-top: 0;
+}
+.muted {
+ color: #66726a;
+}
+.card {
+ margin-top: 24px;
+ padding: 24px;
+ background: #ffffff;
+ border: 1px solid #dfe5df;
+ border-radius: 16px;
+}
+.callout {
+ margin-top: 20px;
+ padding: 16px 18px;
+ background: #eef5ef;
+ border: 1px solid #cdddcf;
+ border-radius: 12px;
+}
+form.card {
+ display: flex;
+ flex-direction: column;
+ gap: 20px;
+}
+form label {
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+ font-weight: 600;
+}
+input,
+select,
+textarea {
+ width: 100%;
+ min-height: 46px;
+ padding: 11px 12px;
+ border: 1px solid #c8d0ca;
+ border-radius: 9px;
+ background: #ffffff;
+ color: #17211b;
+ font: inherit;
+}
+textarea {
+ min-height: 120px;
+ resize: vertical;
+}
+input:focus,
+select:focus,
+textarea:focus {
+ outline: 2px solid #6e967d;
+ outline-offset: 1px;
+ border-color: #6e967d;
+}
+input[type="checkbox"] {
+ width: auto;
+ min-height: 0;
+ margin: 0;
+}
+label:has(input[type="checkbox"]) {
+ flex-direction: row;
+ align-items: flex-start;
+ gap: 10px;
+ font-weight: 400;
+}
+.btn {
+ display: inline-flex;
+ width: fit-content;
+ min-height: 44px;
+ align-items: center;
+ justify-content: center;
+ padding: 11px 18px;
+ border: 0;
+ border-radius: 9px;
+ background: #176b45;
+ color: #ffffff;
+ font: inherit;
+ font-weight: 700;
+ text-decoration: none;
+ cursor: pointer;
+}
+.btn:hover {
+ background: #125737;
+}
+.btn:disabled {
+ opacity: 0.6;
+ cursor: not-allowed;
+}
+footer {
+ margin-top: 40px;
+ padding: 34px 24px;
+ background: #102019;
+ color: #ffffff;
+}
+footer > div {
+ max-width: 1100px;
+ margin: 0 auto;
+}
+@media (max-width: 700px) {
+ nav {
+   padding: 16px;
+ }
+ .page {
+   width: min(100% - 24px, 1000px);
+   padding: 32px 0 56px;
+ }
+ .card {
+   padding: 18px;
+ }
+ .btn {
+   width: 100%;
+ }
+}
