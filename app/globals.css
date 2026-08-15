@@ -25,3 +25,385 @@ form.card label:has(input[type="checkbox"]) {
  align-items: flex-start;
  gap: 10px;
 }
+/* =========================
+
+   GBTS v0.5 homepage
+
+   ========================= */
+
+.pilot-badge {
+
+  display: inline-block;
+
+  margin: 0 0 18px;
+
+  padding: 7px 11px;
+
+  border-radius: 999px;
+
+  background: #eef5ef;
+
+  color: #24583c;
+
+  font-size: 0.82rem;
+
+  font-weight: 700;
+
+}
+
+.hero-copy {
+
+  max-width: 680px;
+
+  font-size: 1.05rem;
+
+  line-height: 1.7;
+
+  color: #5e6961;
+
+}
+
+.hero-actions {
+
+  display: flex;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
+
+  margin-top: 24px;
+
+}
+
+.section {
+
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  padding: 64px 24px;
+
+}
+
+.section-heading {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: end;
+
+  gap: 24px;
+
+  margin-bottom: 28px;
+
+}
+
+.sample-note {
+
+  color: #6b746e;
+
+  font-size: 0.9rem;
+
+}
+
+.impact-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+
+}
+
+.metric-card {
+
+  padding: 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #dde4de;
+
+  border-radius: 16px;
+
+}
+
+.metric-number {
+
+  font-size: 2.4rem;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  color: #176b45;
+
+}
+
+.metric-label {
+
+  margin-top: 10px;
+
+  color: #566159;
+
+  font-weight: 600;
+
+}
+
+.needs-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 18px;
+
+}
+
+.need-card {
+
+  padding: 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #dde4de;
+
+  border-radius: 16px;
+
+}
+
+.need-topline {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+
+  font-weight: 700;
+
+}
+
+.status-badge {
+
+  display: inline-flex;
+
+  width: fit-content;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  background: #e9f4ed;
+
+  color: #176b45;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+}
+
+.school-name {
+
+  margin-bottom: 4px;
+
+  font-weight: 700;
+
+}
+
+.need-meta {
+
+  display: flex;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+
+  margin: 18px 0;
+
+  color: #657068;
+
+  font-size: 0.9rem;
+
+}
+
+.need-meta span {
+
+  padding: 6px 9px;
+
+  border-radius: 8px;
+
+  background: #f3f5f3;
+
+}
+
+.text-link {
+
+  font-weight: 700;
+
+  color: #176b45;
+
+  text-decoration: none;
+
+}
+
+.steps-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin-top: 28px;
+
+}
+
+.step-card {
+
+  padding: 24px;
+
+  background: #ffffff;
+
+  border-top: 3px solid #176b45;
+
+  border-radius: 12px;
+
+}
+
+.step-number {
+
+  margin-bottom: 22px;
+
+  color: #6d776f;
+
+  font-size: 0.85rem;
+
+  font-weight: 700;
+
+}
+
+.transparency-panel {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1.2fr;
+
+  gap: 48px;
+
+  background: #102019;
+
+  color: #ffffff;
+
+  border-radius: 24px;
+
+  margin-top: 48px;
+
+  margin-bottom: 48px;
+
+}
+
+.transparency-panel .eyebrow {
+
+  color: #a8c8b4;
+
+}
+
+.transparency-list {
+
+  display: grid;
+
+  gap: 12px;
+
+  align-content: center;
+
+}
+
+.final-cta {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 40px;
+
+}
+
+@media (max-width: 850px) {
+
+  .impact-grid,
+
+  .needs-grid,
+
+  .steps-grid {
+
+    grid-template-columns: 1fr 1fr;
+
+  }
+
+  .transparency-panel {
+
+    grid-template-columns: 1fr;
+
+    gap: 24px;
+
+  }
+
+  .final-cta {
+
+    display: block;
+
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .section {
+
+    padding: 44px 16px;
+
+  }
+
+  .section-heading {
+
+    display: block;
+
+  }
+
+  .sample-note {
+
+    display: block;
+
+    margin-top: 8px;
+
+  }
+
+  .impact-grid,
+
+  .needs-grid,
+
+  .steps-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .metric-card,
+
+  .need-card,
+
+  .step-card {
+
+    padding: 18px;
+
+  }
+
+}
+ 
