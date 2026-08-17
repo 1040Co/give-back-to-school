@@ -125,7 +125,7 @@ export default async function TeacherDashboardPage() {
              : ""}
 </h1>
 <p className="muted">
-           Manage your teacher profile, verification and classroom requests
+           Manage your teacher profile, verification, and classroom requests
            from one place.
 </p>
 </div>
