@@ -27,22 +27,15 @@ export default function TeacherRegisterPage() {
     setMessage("");
 
     const { error } = await supabase.auth.signUp({
-
-      email,
-
-      password,
-
-      options: {
-
-        data: {
-
-          full_name: fullName,
-
-        },
-
-      },
-
-    });
+ email,
+ password,
+ options: {
+   emailRedirectTo: `${window.location.origin}/teacher/sign-in`,
+   data: {
+     full_name: fullName,
+   },
+ },
+});
 
     if (error) {
 
