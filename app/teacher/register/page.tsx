@@ -30,7 +30,7 @@ export default function TeacherRegisterPage() {
  email,
  password,
  options: {
-   emailRedirectTo: `${window.location.origin}/teacher/sign-in`,
+   emailRedirectTo: `${window.location.origin}/auth/confirm`,
    data: {
      full_name: fullName,
    },
