@@ -182,7 +182,7 @@ export default async function TeacherDashboardPage() {
 
         correction:
 </p>
-<div className="callout">
+<div className="correction-callout">
 
         {latestVerification.correction_message}
 </div>
