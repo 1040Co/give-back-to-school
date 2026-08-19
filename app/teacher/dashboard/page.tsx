@@ -35,6 +35,14 @@ export default async function TeacherDashboardPage() {
    .select("full_name")
    .eq("id", user.id)
    .maybeSingle();
+const { data: latestVerification } = await supabase
+ .from("teacher_verifications")
+ .select("status, correction_message")
+ .eq("teacher_profile_id", teacherProfile?.id || "")
+ .order("submitted_at", { ascending: false })
+ .limit(1)
+ .maybeSingle();
+ 
  const { data: teacherProfile } = await supabase
    .from("teacher_profiles")
    .select(
@@ -160,6 +168,36 @@ export default async function TeacherDashboardPage() {
 <div className="metric-label">Needs completed</div>
 </div>
 </section>
+
+{latestVerification?.status === "correction_required" &&
+
+  latestVerification?.correction_message && (
+<section className="card">
+<div className="eyebrow">Action required</div>
+<h2>Verification correction needed</h2>
+<p className="muted">
+
+        The GBTS admin reviewed your verification and needs the following
+
+        correction:
+</p>
+<div className="callout">
+
+        {latestVerification.correction_message}
+</div>
+<p className="muted">
+
+        Please update the requested information or documents and resubmit your
+
+        verification.
+</p>
+<Link className="btn" href="/teacher/verification">
+
+        Update verification
+</Link>
+</section>
+
+  )}
 <section className="card">
 <div className="dashboard-section-heading">
 <div>
