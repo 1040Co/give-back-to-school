@@ -678,4 +678,11 @@ form.card label:has(input[type="checkbox"]) {
   }
 
 }
- 
+/*CORRECTION TEACHER CALLOUT*/ 
+.correction-callout {
+ border-left: 4px solid #b42318;
+ background: #fff1f0;
+ color: #7a271a;
+ padding: 16px 18px;
+ border-radius: 8px;
+}
