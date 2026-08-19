@@ -169,25 +169,7 @@ export default async function TeacherDashboardPage() {
 <div className="metric-label">Needs completed</div>
 </div>
 </section>
-
 {latestVerification?.status === "correction_required" &&
-{latestVerification?.status === "rejected" &&
- latestVerification?.correction_message && (
-<section className="card">
-<div className="eyebrow">Verification rejected</div>
-<h2>Your verification was not approved</h2>
-<p className="muted">
-       The GBTS admin reviewed your verification and could not approve it.
-</p>
-<div className="rejection-callout">
-       {latestVerification.correction_message}
-</div>
-<p className="muted">
-       You cannot resubmit verification at this time.
-</p>
-</section>
- )}
- 
 
   latestVerification?.correction_message && (
 <section className="card">
@@ -216,6 +198,30 @@ export default async function TeacherDashboardPage() {
 </section>
 
   )}
+
+{latestVerification?.status === "rejected" &&
+
+  latestVerification?.correction_message && (
+<section className="card">
+<div className="eyebrow">Verification rejected</div>
+<h2>Your verification was not approved</h2>
+<p className="muted">
+
+        The GBTS admin reviewed your verification and could not approve it.
+</p>
+<div className="rejection-callout">
+
+        {latestVerification.correction_message}
+</div>
+<p className="muted">
+
+        You cannot resubmit verification at this time.
+</p>
+</section>
+
+  )}
+ 
+
 <section className="card">
 <div className="dashboard-section-heading">
 <div>
