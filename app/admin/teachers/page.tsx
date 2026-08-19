@@ -148,15 +148,15 @@ export default async function AdminTeachersPage() {
 
   };
 
-  if (newStatus === "correction_required") {
-
-    verificationUpdate.correction_message = correctionMessage?.trim() || null;
-
-  } else {
-
-    verificationUpdate.correction_message = null;
-
-  }
+  if (
+ newStatus === "correction_required" ||
+ newStatus === "rejected"
+) {
+ verificationUpdate.correction_message =
+   correctionMessage?.trim() || null;
+} else {
+ verificationUpdate.correction_message = null;
+}
 
   await supabase
 
@@ -226,7 +226,7 @@ async function requestCorrection(formData: FormData) {
       String(formData.get("teacherProfileId") || ""),
 
       "rejected"
-
+       String(formData.get("rejectionMessage")
     );
 
   }
@@ -644,30 +644,51 @@ async function requestCorrection(formData: FormData) {
    Send correction request
 </button>
 </form>
-<form action={rejectTeacher}>
+<form action={rejectTeacher} className="card">
 <input
 
-            type="hidden"
+    type="hidden"
 
-            name="verificationId"
+    name="verificationId"
 
-            value={verification.id}
+    value={verification.id}
 
-          />
+  />
 <input
 
-            type="hidden"
+    type="hidden"
 
-            name="teacherProfileId"
+    name="teacherProfileId"
 
-            value={verification.teacher_profile_id}
+    value={verification.teacher_profile_id}
 
-          />
+  />
+<label>
+
+    Reason for rejection
+<textarea
+
+      name="rejectionMessage"
+
+      rows={4}
+
+      required
+
+      placeholder="Example: The submitted identification and employment information could not be validated."
+
+    />
+</label>
+<p className="muted">
+
+    Rejection will stop the teacher from immediately resubmitting. The reason
+    will be shown prominently on their dashboard.
+</p>
 <button className="btn secondary" type="submit">
 
-            Reject
+    Reject verification
 </button>
 </form>
+ 
 </div>
 </article>
 
