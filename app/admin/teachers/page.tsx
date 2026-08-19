@@ -225,7 +225,7 @@ async function requestCorrection(formData: FormData) {
 
       String(formData.get("teacherProfileId") || ""),
 
-      "rejected"
+      "rejected",
        String(formData.get("rejectionMessage")
     );
 
