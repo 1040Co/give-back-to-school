@@ -686,3 +686,12 @@ form.card label:has(input[type="checkbox"]) {
  padding: 16px 18px;
  border-radius: 8px;
 }
+/*CORRECTION rejected CALLOUT*/ 
+.rejection-callout {
+ border-left: 4px solid #8a1c13;
+ background: #fdecec;
+ color: #651b16;
+ padding: 16px 18px;
+ border-radius: 8px;
+ font-weight: 600;
+}
