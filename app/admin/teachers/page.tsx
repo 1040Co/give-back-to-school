@@ -86,13 +86,110 @@ export default async function AdminTeachersPage() {
 
   async function updateVerification(
 
-    verificationId: string,
+  verificationId: string,
 
-    teacherProfileId: string,
+  teacherProfileId: string,
 
-    newStatus: string
+  newStatus: "verified" | "correction_required" | "rejected",
 
-  ) {
+  correctionMessage?: string
+
+) {
+
+  "use server";
+
+  const supabase = await createClient();
+
+  const {
+
+    data: { user },
+
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+
+    return;
+
+  }
+
+  const { data: adminProfile } = await supabase
+
+    .from("profiles")
+
+    .select("role")
+
+    .eq("id", user.id)
+
+    .maybeSingle();
+
+  if (adminProfile?.role !== "admin") {
+
+    return;
+
+  }
+
+  const verificationUpdate: {
+
+    status: string;
+
+    reviewed_by: string;
+
+    reviewed_at: string;
+
+    correction_message?: string | null;
+
+  } = {
+
+    status: newStatus,
+
+    reviewed_by: user.id,
+
+    reviewed_at: new Date().toISOString(),
+
+  };
+
+  if (newStatus === "correction_required") {
+
+    verificationUpdate.correction_message = correctionMessage?.trim() || null;
+
+  } else {
+
+    verificationUpdate.correction_message = null;
+
+  }
+
+  await supabase
+
+    .from("teacher_verifications")
+
+    .update(verificationUpdate)
+
+    .eq("id", verificationId);
+
+  await supabase
+
+    .from("teacher_profiles")
+
+    .update({
+
+      verification_status: newStatus,
+
+      verified_at:
+
+        newStatus === "verified" ? new Date().toISOString() : null,
+
+    })
+
+    .eq("id", teacherProfileId);
+
+  revalidatePath("/admin");
+
+  revalidatePath("/admin/teachers");
+
+  revalidatePath("/teacher/dashboard");
+
+}
+  {
 
     "use server";
 
@@ -196,21 +293,15 @@ export default async function AdminTeachersPage() {
 
   }
 
-  async function requestCorrection(formData: FormData) {
-
-    "use server";
-
-    await updateVerification(
-
-      String(formData.get("verificationId") || ""),
-
-      String(formData.get("teacherProfileId") || ""),
-
-      "correction_required"
-
-    );
-
-  }
+async function requestCorrection(formData: FormData) {
+ "use server";
+ await updateVerification(
+   String(formData.get("verificationId") || ""),
+   String(formData.get("teacherProfileId") || ""),
+   "correction_required",
+   String(formData.get("correctionMessage") || "")
+ );
+}
 
   async function rejectTeacher(formData: FormData) {
 
@@ -617,28 +708,28 @@ export default async function AdminTeachersPage() {
             Approve teacher
 </button>
 </form>
-<form action={requestCorrection}>
+<form action={requestCorrection} className="card">
 <input
-
-            type="hidden"
-
-            name="verificationId"
-
-            value={verification.id}
-
-          />
+   type="hidden"
+   name="verificationId"
+   value={verification.id}
+ />
 <input
-
-            type="hidden"
-
-            name="teacherProfileId"
-
-            value={verification.teacher_profile_id}
-
-          />
+   type="hidden"
+   name="teacherProfileId"
+   value={verification.teacher_profile_id}
+ />
+<label>
+   Correction required
+<textarea
+     name="correctionMessage"
+     rows={4}
+     required
+     placeholder="Example: Please upload a clearer school ID and confirm your current grade level."
+   />
+</label>
 <button className="btn secondary" type="submit">
-
-            Request correction
+   Send correction request
 </button>
 </form>
 <form action={rejectTeacher}>
