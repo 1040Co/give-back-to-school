@@ -215,21 +215,15 @@ async function requestCorrection(formData: FormData) {
  );
 }
 
-  async function rejectTeacher(formData: FormData) {
-
-    "use server";
-
-    await updateVerification(
-
-      String(formData.get("verificationId") || ""),
-
-      String(formData.get("teacherProfileId") || ""),
-
-      "rejected",
-       String(formData.get("rejectionMessage")
-    );
-
-  }
+ async function rejectTeacher(formData: FormData) {
+ "use server";
+ await updateVerification(
+   String(formData.get("verificationId") || ""),
+   String(formData.get("teacherProfileId") || ""),
+   "rejected",
+   String(formData.get("rejectionMessage") || "")
+ );
+}
 
   if (error) {
 
