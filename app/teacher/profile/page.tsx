@@ -33,6 +33,10 @@ export default function TeacherProfilePage() {
   const [gradeLevel, setGradeLevel] = useState("");
 
   const [subjects, setSubjects] = useState("");
+  
+  const [yearsTeaching, setYearsTeaching] = useState("");
+  
+  const [professionalSummary, setProfessionalSummary] = useState("");
 
   const [photoConsent, setPhotoConsent] = useState(false);
 
@@ -115,7 +119,11 @@ export default function TeacherProfilePage() {
       grade_level: gradeLevel || null,
 
       subjects: subjects || null,
-
+      
+      years_teaching: yearsTeaching ? Number(yearsTeaching) : null,
+      
+      professional_summary: professionalSummary || null,
+      
       photo_public_consent: photoConsent,
 
     });
@@ -221,6 +229,27 @@ export default function TeacherProfilePage() {
 
           />
 </label>
+<label>
+         Years of teaching experience
+<input
+           type="number"
+           min="0"
+           max="60"
+           value={yearsTeaching}
+           onChange={(event) => setYearsTeaching(event.target.value)}
+           placeholder="Example: 8"
+ />
+</label>
+<label>
+           Short professional background
+<textarea
+   rows={4}
+   value={professionalSummary}
+   onChange={(event) => setProfessionalSummary(event.target.value)}
+   placeholder="Example: Teaching elementary students since 2018. Currently handles Grade 6 English and serves as the school reading coordinator."
+ />
+</label>
+  
 <label>
 <input
 
