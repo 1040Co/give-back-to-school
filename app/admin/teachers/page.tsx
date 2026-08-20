@@ -339,7 +339,11 @@ async function requestCorrection(formData: FormData) {
         grade_level,
 
         subjects,
+        
+        years_teaching,
 
+        professional_summary,
+        
         verification_status
 
       `
@@ -460,6 +464,18 @@ async function requestCorrection(formData: FormData) {
 <strong>{teacherProfile?.subjects || "Not provided"}</strong>
 </div>
 </div>
+<div>
+<span>Years teaching</span>
+<strong>
+   {teacherProfile?.years_teaching ?? "Not provided"}
+</strong>
+</div>
+<div>
+<span>Professional background</span>
+<strong>
+   {teacherProfile?.professional_summary || "Not provided"}
+</strong>
+</div>  
 <div className="card" style={{ marginTop: "18px" }}>
 <div className="eyebrow">School</div>
 
