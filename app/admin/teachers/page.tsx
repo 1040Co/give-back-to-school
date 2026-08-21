@@ -462,15 +462,17 @@ async function requestCorrection(formData: FormData) {
 <div>
 <span>Years teaching</span>
 <strong>
-   {teacherProfile?.years_teaching ?? "Not provided"}
+   {teacherProfile?.years_teaching != null
+     ? `${teacherProfile.years_teaching} years`
+     : "Not provided"}
 </strong>
 </div>
-<div>
+<div className="teacher-background">
 <span>Professional background</span>
-<strong>
+<p>
    {teacherProfile?.professional_summary || "Not provided"}
-</strong>
-</div>  
+</p>
+</div>
 <div className="card" style={{ marginTop: "18px" }}>
 <div className="eyebrow">School</div>
 
