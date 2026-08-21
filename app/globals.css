@@ -733,6 +733,7 @@ form.card label:has(input[type="checkbox"]) {
 }
 .teacher-years span {
  display: block;
+ font-weight:700;
 }
 .teacher-years strong {
  display: block;
