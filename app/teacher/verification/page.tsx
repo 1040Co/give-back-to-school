@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -20,6 +20,79 @@ export default function TeacherVerificationPage() {
 
   const [loading, setLoading] = useState(false);
 
+  const [submissionBlocked, setSubmissionBlocked] = useState(false);
+useEffect(() => {
+
+  async function checkVerificationStatus() {
+
+    const {
+
+      data: { user },
+
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    const { data: teacherProfile } = await supabase
+
+      .from("teacher_profiles")
+
+      .select("id")
+
+      .eq("user_id", user.id)
+
+      .maybeSingle();
+
+    if (!teacherProfile) return;
+
+    const { data: latestVerification } = await supabase
+
+      .from("teacher_verifications")
+
+      .select("status, reviewed_at")
+
+      .eq("teacher_profile_id", teacherProfile.id)
+
+      .order("submitted_at", { ascending: false })
+
+      .limit(1)
+
+      .maybeSingle();
+
+    if (
+
+      latestVerification?.status === "rejected" &&
+
+      latestVerification.reviewed_at
+
+    ) {
+
+      const rejectedAt = new Date(latestVerification.reviewed_at);
+
+      const retryAt = new Date(rejectedAt);
+
+      retryAt.setDate(retryAt.getDate() + 7);
+
+      if (new Date() < retryAt) {
+
+        setSubmissionBlocked(true);
+
+        setMessage(
+
+          `Your previous verification was rejected. You may submit a new verification after ${retryAt.toLocaleDateString()}.`
+
+        );
+
+      }
+
+    }
+
+  }
+
+  checkVerificationStatus();
+
+}, [supabase]);
+ 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 
     event.preventDefault();
@@ -76,33 +149,72 @@ export default function TeacherVerificationPage() {
 
     const { data: existingVerification } = await supabase
 
-      .from("teacher_verifications")
+  .from("teacher_verifications")
 
-      .select("id, status")
+  .select("id, status, reviewed_at")
 
-      .eq("teacher_profile_id", teacherProfile.id)
+  .eq("teacher_profile_id", teacherProfile.id)
 
-      .in("status", ["pending", "verified"])
+  .order("submitted_at", { ascending: false })
 
-      .maybeSingle();
+  .limit(1)
 
-    if (existingVerification) {
+  .maybeSingle();
+
+if (existingVerification) {
+
+  if (existingVerification.status === "verified") {
+
+    setMessage("Your teacher account is already verified.");
+
+    setLoading(false);
+
+    return;
+
+  }
+
+  if (existingVerification.status === "pending") {
+
+    setMessage("Your verification is already being reviewed.");
+
+    setLoading(false);
+
+    return;
+
+  }
+
+  if (
+
+    existingVerification.status === "rejected" &&
+
+    existingVerification.reviewed_at
+
+  ) {
+
+    const rejectedAt = new Date(existingVerification.reviewed_at);
+
+    const retryAt = new Date(rejectedAt);
+
+    retryAt.setDate(retryAt.getDate() + 7);
+
+    if (new Date() < retryAt) {
 
       setMessage(
 
-        existingVerification.status === "verified"
-
-          ? "Your teacher account is already verified."
-
-          : "Your verification is already being reviewed."
+        `Your previous verification was rejected. You may submit a new verification after ${retryAt.toLocaleDateString()}.`
 
       );
-
+      setSubmissionBlocked(true);
       setLoading(false);
 
       return;
 
     }
+
+  }
+
+}
+ 
 
     const { data: verification, error: verificationError } = await supabase
 
@@ -204,6 +316,15 @@ export default function TeacherVerificationPage() {
 
         on public school-need pages.
 </p>
+{submissionBlocked && (
+<div className="rejection-callout">
+<strong>Verification resubmission temporarily unavailable</strong>
+<p style={{ marginTop: "8px", marginBottom: 0 }}>
+     {message}
+</p>
+</div>
+)}
+{!submissionBlocked && (
 <form className="card" onSubmit={handleSubmit}>
 <label>
 
@@ -257,6 +378,8 @@ export default function TeacherVerificationPage() {
 
         {message ? <p className="muted">{message}</p> : null}
 </form>
+)}
+  
 </main>
 
   );
