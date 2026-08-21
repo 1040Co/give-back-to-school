@@ -459,7 +459,7 @@ async function requestCorrection(formData: FormData) {
 <strong>{teacherProfile?.subjects || "Not provided"}</strong>
 </div>
 </div>
-<div classname="teacher-years">
+<div className="teacher-years">
 <span>Years teaching</span>
 <strong>
    {teacherProfile?.years_teaching != null
