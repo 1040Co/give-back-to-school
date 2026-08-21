@@ -14,7 +14,7 @@ export default function TeacherVerificationPage() {
 
   const [documentType, setDocumentType] = useState("school_id");
 
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
 
   const [message, setMessage] = useState("");
 
@@ -97,13 +97,10 @@ useEffect(() => {
 
     event.preventDefault();
 
-    if (!file) {
-
-      setMessage("Please select a verification document.");
-
-      return;
-
-    }
+    if (files.length === 0) {
+ setMessage("Please select at least one verification document.");
+ return;
+}
 
     setLoading(true);
 
@@ -246,57 +243,64 @@ if (existingVerification) {
 
     }
 
-    const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    for (const file of files.slice(0, 3)) {
 
-    const storagePath = `${user.id}/${verification.id}-${Date.now()}-${safeFileName}`;
+  const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
 
-    const { error: uploadError } = await supabase.storage
+  const storagePath =
 
-      .from("verification-documents")
+    `${user.id}/${verification.id}-${Date.now()}-${safeFileName}`;
 
-      .upload(storagePath, file, {
+  const { error: uploadError } = await supabase.storage
 
-        contentType: file.type,
+    .from("verification-documents")
 
-        upsert: false,
+    .upload(storagePath, file, {
 
-      });
+      contentType: file.type,
 
-    if (uploadError) {
+      upsert: false,
 
-      setMessage(uploadError.message);
+    });
 
-      setLoading(false);
+  if (uploadError) {
 
-      return;
+    setMessage(uploadError.message);
 
-    }
+    setLoading(false);
 
-    const { error: documentError } = await supabase
+    return;
 
-      .from("verification_documents")
+  }
 
-      .insert({
+  const { error: documentError } = await supabase
 
-        verification_id: verification.id,
+    .from("verification_documents")
 
-        document_type: documentType,
+    .insert({
 
-        storage_path: storagePath,
+      verification_id: verification.id,
 
-        original_filename: file.name,
+      document_type: documentType,
 
-      });
+      storage_path: storagePath,
 
-    if (documentError) {
+      original_filename: file.name,
 
-      setMessage(documentError.message);
+    });
 
-      setLoading(false);
+  if (documentError) {
 
-      return;
+    setMessage(documentError.message);
 
-    }
+    setLoading(false);
+
+    return;
+
+  }
+
+}
+ 
 
     router.push("/teacher/dashboard");
 
@@ -348,20 +352,17 @@ if (existingVerification) {
 
           Verification document
 <input
-
-            type="file"
-
-            accept=".jpg,.jpeg,.png,.pdf"
-
-            onChange={(event) => {
-
-              setFile(event.target.files?.[0] ?? null);
-
-            }}
-
-            required
-
-          />
+ type="file"
+ multiple
+ accept=".jpg,.jpeg,.png,.pdf"
+ onChange={(event) => {
+   const selectedFiles = Array.from(event.target.files || []).slice(0, 3);
+   setFiles(selectedFiles);
+ }}
+ required
+/>
+ <p className="muted"></p> You may upload to a minimum of 2 and maximum of 3 files. Accepted formats: JPG. PNG or PDF.
+</label>p>
 </label>
 <div className="callout">
 
