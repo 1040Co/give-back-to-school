@@ -726,17 +726,35 @@ form.card label:has(input[type="checkbox"]) {
 
 }
 
-.request-summary > div span {
-
-  display: block;
-
-  margin-bottom: 6px;
-
+.teacher-years {
+ display: flex;
+ flex-direction: column;
+ gap: 8px;
+}
+.teacher-years span {
+ display: block;
+}
+.teacher-years strong {
+ display: block;
+ font-weight: 400;
+}
+.teacher-background {
+ grid-column: 1 / -1;
+ margin-top: 12px;
+}
+.teacher-background span {
+ display: block;
+ margin-bottom: 10px;
+ font-weight: 700;
+}
+.teacher-background p {
+ margin: 0;
+ line-height: 1.6;
+ font-weight: 400;
 }
 
-.request-summary > div strong {
 
-  display: block;
 
-}
+
+
  
