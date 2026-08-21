@@ -697,14 +697,46 @@ form.card label:has(input[type="checkbox"]) {
 }
 /*CORRECTION teacher bacckground experience*/ 
 .teacher-background {
- grid-column: 1 / -1;
+
+  grid-column: 1 / -1;
+
+  margin-top: 8px;
+
 }
+
 .teacher-background span {
- display: block;
- margin-bottom: 8px;
+
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-weight: 700;
+
 }
+
 .teacher-background p {
- margin: 0;
- line-height: 1.6;
- font-weight: 400;
+
+  display: block;
+
+  margin: 0;
+
+  line-height: 1.6;
+
+  font-weight: 600;
+
 }
+
+.request-summary > div span {
+
+  display: block;
+
+  margin-bottom: 6px;
+
+}
+
+.request-summary > div strong {
+
+  display: block;
+
+}
+ 
