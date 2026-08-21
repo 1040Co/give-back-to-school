@@ -364,7 +364,7 @@ async function requestCorrection(formData: FormData) {
 
       .from("profiles")
 
-      .select("full_name, email")
+      .select("full_name")
 
       .eq("id", teacherProfile.user_id)
 
