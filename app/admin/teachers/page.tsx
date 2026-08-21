@@ -436,11 +436,6 @@ async function requestCorrection(formData: FormData) {
 <div>
 <div className="eyebrow">Teacher verification request</div>
 <h2>{account?.full_name || "Teacher"}</h2>
-
-          {account?.email ? (
-<p className="muted">{account.email}</p>
-
-          ) : null}
 </div>
 <span className="dashboard-badge dashboard-badge-pending">
 
