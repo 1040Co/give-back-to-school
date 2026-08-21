@@ -361,8 +361,9 @@ if (existingVerification) {
  }}
  required
 />
- <p className="muted"></p> You may upload to a minimum of 2 and maximum of 3 files. Accepted formats: JPG. PNG or PDF.
-</label>p>
+ <p className="muted">
+ You may upload up to 3 files. Accepted formats: JPG, PNG, or PDF.
+</p>
 </label>
 <div className="callout">
 
