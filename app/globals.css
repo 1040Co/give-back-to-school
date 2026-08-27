@@ -20,7 +20,7 @@
   --gbts-warning: #825b00;
   --gbts-warning-bg: #fff2d7;
 
-  --gbts-dark-panel: #1f2328;
+  --gbts-dark-panel: #6b6f72;
   --gbts-dark-panel-text: #f5f6f7;
 }
 
@@ -629,7 +629,7 @@ form.card label:has(input[type="checkbox"]) {
 
 .footer {
   margin-top: 50px;
-  background: var(--gbts-charcoal);
+  background: var(--gbts-dark-panel);
   color: #e8eaed;
 }
 
