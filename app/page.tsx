@@ -2,61 +2,29 @@ import Link from "next/link";
 
 import { createClient } from "../lib/supabase/server";
 
-const sampleNeeds = [
-
-  {
-
-    title: "2 Stand Fans for Grade 4",
-
-    school: "St. James Academy",
-
-    location: "Plaridel, Bulacan",
-
-    learners: 38,
-
-    value: "₱3,600",
-
-    status: "Sample",
-
-  },
-
-  {
-
-    title: "Reading Workbooks",
-
-    school: "San Miguel Elementary School",
-
-    location: "Bulacan",
-
-    learners: 42,
-
-    value: "₱4,250",
-
-    status: "Sample",
-
-  },
-
-  {
-
-    title: "Classroom Whiteboard",
-
-    school: "Plaridel Central School",
-
-    location: "Plaridel, Bulacan",
-
-    learners: 35,
-
-    value: "₱2,800",
-
-    status: "Sample",
-
-  },
-
-];
-
 export default async function Home() {
 
   const supabase = await createClient();
+  
+  const { data: approvedNeeds } = await supabase
+ .from("needs")
+ .select(
+   `
+   id,
+   title,
+   learners_benefiting,
+   estimated_value,
+   school_id,
+   schools (
+     school_name,
+     municipality,
+     province
+   )
+   `
+ )
+ .eq("status", "approved")
+ .order("approved_at", { ascending: false })
+ .limit(3);
 
   const [
 
@@ -188,30 +156,62 @@ export default async function Home() {
 </div>
 <div className="needs-grid">
 
-          {sampleNeeds.map((need) => (
-<article className="need-card" key={need.title}>
+{!approvedNeeds || approvedNeeds.length === 0 ? (
+<div className="card">
+<h3>No approved classroom needs yet</h3>
+<p className="muted">
+
+      New verified classroom requests will appear here after GBTS approval.
+</p>
+</div>
+
+) : (
+
+  approvedNeeds.map((need: any) => {
+
+    const school = Array.isArray(need.schools)
+
+      ? need.schools[0]
+
+      : need.schools;
+
+    return (
+<article className="need-card" key={need.id}>
 <div className="need-topline">
-<span className="status-badge">{need.status}</span>
-<span>{need.value}</span>
+<span className="status-badge">Open need</span>
+<span>
+
+            ₱{Number(need.estimated_value || 0).toLocaleString()}
+</span>
 </div>
 <h3>{need.title}</h3>
-<p className="school-name">{need.school}</p>
-<p className="muted">{need.location}</p>
+<p className="school-name">
+
+          {school?.school_name || "Verified school"}
+</p>
+<p className="muted">
+
+          {[school?.municipality, school?.province]
+
+            .filter(Boolean)
+
+            .join(", ")}
+</p>
 <div className="need-meta">
-<span>{need.learners} learners</span>
+<span>{need.learners_benefiting || 0} learners</span>
 <span>Physical goods only</span>
 </div>
-<span className="text-link">Demo need</span>
+<Link className="text-link" href={`/needs/${need.id}`}>
+
+          View need →
+</Link>
 </article>
 
-          ))}
-</div>
-<p className="sample-note" style={{ marginTop: "16px" }}>
+    );
 
-          These classroom cards are sample data for pilot testing. Live approved
+  })
 
-          requests will replace them as teachers begin submitting needs.
-</p>
+)}
 </section>
 <section className="section">
 <div className="eyebrow">Simple by design</div>
