@@ -724,6 +724,7 @@ form.card label:has(input[type="checkbox"]) {
   .step-card {
     padding: 18px;
   }
+}
 .section {
  border-top: 1px solid var(--gbts-stone);
 }
