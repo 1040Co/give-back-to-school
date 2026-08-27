@@ -149,8 +149,8 @@ export default async function Home() {
 <section className="section">
 <div className="section-heading">
 <div>
-<div className="eyebrow">Sample classroom needs</div>
-<h2>What giving through GBTS will look like</h2>
+<div className="eyebrow">VERIFIED CLASSROOM NEEDS</div>
+<h2>Real needs from verified teachers and schools</h2>
 </div>
 <Link href="/needs">View school needs →</Link>
 </div>
