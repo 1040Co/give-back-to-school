@@ -811,7 +811,32 @@ body {
 .muted {
  color: var(--gbts-slate);
 }
-
+.metric-number,
+.status,
+.dashboard-status,
+.setup-complete,
+.teacher-account-chip strong,
+.school-name,
+.need-card strong {
+ color: var(--gbts-charcoal);
+}
+.btn,
+button.btn,
+a.btn {
+ background: var(--gbts-charcoal) !important;
+ border-color: var(--gbts-charcoal) !important;
+ color: var(--gbts-white) !important;
+}
+.text-link,
+a.text-link {
+ color: var(--gbts-charcoal) !important;
+}
+.status-badge,
+.dashboard-badge-success,
+.dashboard-badge-pending {
+ background: var(--gbts-stone) !important;
+ color: var(--gbts-charcoal) !important;
+}
 
 
 
