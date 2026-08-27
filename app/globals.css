@@ -36,7 +36,7 @@ html {
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--gbts-charcoal);
   background: var(--gbts-offwhite);
 }
@@ -727,4 +727,11 @@ form.card label:has(input[type="checkbox"]) {
 }
 .section {
  border-top: 1px solid var(--gbts-stone);
+}
+h1,
+h2,
+h3,
+.brand {
+ font-family: "Manrope", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ letter-spacing: -0.02em;
 }
