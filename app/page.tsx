@@ -212,6 +212,7 @@ export default async function Home() {
   })
 
 )}
+</div>
 </section>
 <section className="section">
 <div className="eyebrow">Simple by design</div>
