@@ -5,6 +5,8 @@
 
 :root {
   --gbts-charcoal: #1f2328;
+  --gbts-primary: #6b6f72;
+  --gbts-primary-hover: #5f6366;
   --gbts-charcoal-hover: #343a40;
   --gbts-slate: #5a616b;
   --gbts-stone: #e6e8ec;
@@ -88,9 +90,9 @@ button.btn,
 a.btn {
   display: inline-block;
   padding: 12px 17px;
-  border: 1px solid var(--gbts-charcoal);
+  border: 1px solid var(--gbts-primary);
   border-radius: 9px;
-  background: var(--gbts-charcoal);
+  background: var(--gbts-primary);
   color: var(--gbts-white);
   font-weight: 700;
   cursor: pointer;
@@ -99,8 +101,8 @@ a.btn {
 .btn:hover,
 button.btn:hover,
 a.btn:hover {
-  background: var(--gbts-charcoal-hover);
-  border-color: var(--gbts-charcoal-hover);
+  background: var(--gbts-primary-hover);
+  border-color: var(--gbts-primary-hover);
 }
 
 .btn.secondary,
