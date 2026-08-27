@@ -753,7 +753,64 @@ form.card label:has(input[type="checkbox"]) {
  line-height: 1.6;
  font-weight: 400;
 }
-
+/* GBTS neutral visual refresh */
+:root {
+ --gbts-charcoal: #1f2328;
+ --gbts-slate: #5a616b;
+ --gbts-stone: #e6e8ec;
+ --gbts-offwhite: #fafafb;
+ --gbts-warm: #f2f0ed;
+ --gbts-white: #ffffff;
+}
+body {
+ background: var(--gbts-offwhite);
+ color: var(--gbts-charcoal);
+}
+.btn {
+ background: var(--gbts-charcoal);
+ color: var(--gbts-white);
+ border-color: var(--gbts-charcoal);
+}
+.btn:hover {
+ background: #343a40;
+ border-color: #343a40;
+}
+.btn.secondary {
+ background: var(--gbts-white);
+ color: var(--gbts-charcoal);
+ border-color: #cfd3d8;
+}
+.text-link {
+ color: var(--gbts-charcoal);
+}
+.status-badge {
+ background: var(--gbts-stone);
+ color: var(--gbts-charcoal);
+}
+.dashboard-badge-success {
+ background: var(--gbts-stone);
+ color: var(--gbts-charcoal);
+}
+.dashboard-badge-pending {
+ background: var(--gbts-warm);
+ color: var(--gbts-charcoal);
+}
+.callout {
+ background: var(--gbts-warm);
+ border-left-color: var(--gbts-slate);
+}
+.card,
+.need-card,
+.metric-card {
+ background: var(--gbts-white);
+ border-color: var(--gbts-stone);
+}
+.eyebrow {
+ color: var(--gbts-slate);
+}
+.muted {
+ color: var(--gbts-slate);
+}
 
 
 
