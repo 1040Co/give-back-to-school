@@ -732,6 +732,6 @@ h1,
 h2,
 h3,
 .brand {
- font-family: "Manrope", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+ font-family: var(--font-manrope), "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
  letter-spacing: -0.02em;
 }
