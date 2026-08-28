@@ -5,15 +5,73 @@ import { useParams } from "next/navigation";
 import { createClient } from "../../../../lib/supabase/client";
  export default function GiverCommitPage() {
  const params = useParams();
+ const supabase = createClient(); 
  const needId = String(params.id || "");
  const [fullName, setFullName] = useState("");
  const [email, setEmail] = useState("");
  const [anonymous, setAnonymous] = useState(false);
  const [agreeRules, setAgreeRules] = useState(false);
  const [agreePrivacy, setAgreePrivacy] = useState(false);
- function handleSubmit(event: FormEvent<HTMLFormElement>) {
-   event.preventDefault();
- }
+ const [message, setMessage] = useState("");
+ const [loading, setLoading] = useState(false);
+ 
+ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+
+  event.preventDefault();
+
+  setLoading(true);
+
+  setMessage("");
+
+  if (!agreeRules || !agreePrivacy) {
+
+    setMessage("Please accept the Giver Rules and Privacy Notice.");
+
+    setLoading(false);
+
+    return;
+
+  }
+
+  const { error } = await supabase.auth.signInWithOtp({
+
+    email,
+
+    options: {
+
+      emailRedirectTo: `${window.location.origin}/needs/${needId}/commit/confirm`,
+
+      data: {
+
+        full_name: fullName,
+
+        anonymous,
+
+      },
+
+    },
+
+  });
+
+  if (error) {
+
+    setMessage(error.message);
+
+    setLoading(false);
+
+    return;
+
+  }
+
+  setMessage(
+
+    "Verification email sent. Please check your inbox and confirm your email to continue."
+
+  );
+
+  setLoading(false);
+
+}
  return (
 <main className="page">
 <Link className="text-link" href={`/needs/${needId}`}>
@@ -78,12 +136,13 @@ import { createClient } from "../../../../lib/supabase/client";
          fulfilment, security and platform administration.
 </label>
 <button
-         className="btn"
-         type="submit"
-         disabled={!agreeRules || !agreePrivacy}
+ className="btn"
+ type="submit"
+ disabled={loading || !agreeRules || !agreePrivacy}
 >
-         Continue to email verification
+ {loading ? "Sending verification..." : "Continue to email verification"}
 </button>
+{message ? <p className="muted">{message}</p> : null}
 </form>
 </main>
  );
