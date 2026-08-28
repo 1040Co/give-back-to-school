@@ -672,9 +672,13 @@ form.card label:has(input[type="checkbox"]) {
     font-size: 42px;
   }
 
-  .links {
-    display: none;
-  }
+.links {
+ display: flex;
+ gap: 12px;
+ font-size: 13px;
+ overflow-x: auto;
+ white-space: nowrap;
+}
 }
 
 @media (max-width: 700px) {
