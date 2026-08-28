@@ -153,11 +153,6 @@ export default async function NeedDetailPage({
 
             {school?.province ? `, ${school.province}` : ""}
 </p>
-
-          {need.description ? (
-<p className="need-hero-description">{need.description}</p>
-
-          ) : null}
 </div>
 <div className="need-hero-facts">
 <div className="need-fact">
