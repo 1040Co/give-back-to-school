@@ -2,7 +2,8 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useParams } from "next/navigation";
-export default function GiverCommitPage() {
+import { createClient } from "../../../../lib/supabase/client";
+ export default function GiverCommitPage() {
  const params = useParams();
  const needId = String(params.id || "");
  const [fullName, setFullName] = useState("");
