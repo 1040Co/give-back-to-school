@@ -939,19 +939,16 @@ h3,
 }
 
 .need-hero-facts {
-
-  display: grid;
-
-  gap: 12px;
-
+ display: grid;
+ grid-template-columns: repeat(3, minmax(0, 1fr));
+ gap: 32px;
+ margin-top: 32px;
+ max-width: 760px;
 }
 
 .need-fact {
-
-  padding: 18px 0;
-
-  border-top: 1px solid var(--gbts-stone);
-
+ padding: 18px 0 0;
+ border-top: 1px solid var(--gbts-stone);
 }
 
 .need-fact strong,
@@ -1455,6 +1452,15 @@ h3,
     font-size: 17px;
 
   }
+   
+.need-hero-facts {
+ grid-template-columns: 1fr;
+ gap: 14px;
+}
+   
+.need-fact {
+ padding-top: 14px;
+}
 
   .need-section,
 
