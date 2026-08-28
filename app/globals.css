@@ -739,3 +739,108 @@ h3,
  font-family: var(--font-manrope), "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
  letter-spacing: -0.02em;
 }
+
+.mobile-menu {
+
+  display: none;
+
+}
+
+@media (max-width: 760px) {
+
+  .links {
+
+    display: none;
+
+  }
+
+  .nav {
+
+    gap: 12px;
+
+  }
+
+  .mobile-menu {
+
+    display: block;
+
+    margin-left: auto;
+
+    position: relative;
+
+  }
+
+  .mobile-menu summary {
+
+    list-style: none;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    padding: 10px 12px;
+
+    border: 1px solid var(--gbts-stone-dark);
+
+    border-radius: 9px;
+
+    background: var(--gbts-white);
+
+  }
+
+  .mobile-menu summary::-webkit-details-marker {
+
+    display: none;
+
+  }
+
+  .mobile-menu-panel {
+
+    position: absolute;
+
+    right: 0;
+
+    top: calc(100% + 8px);
+
+    min-width: 180px;
+
+    padding: 10px;
+
+    background: var(--gbts-white);
+
+    border: 1px solid var(--gbts-stone);
+
+    border-radius: 12px;
+
+    box-shadow: 0 12px 30px rgba(31, 35, 40, 0.12);
+
+    z-index: 20;
+
+  }
+
+  .mobile-menu-panel a {
+
+    display: block;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+  }
+
+  .mobile-menu-panel a:hover {
+
+    background: var(--gbts-warm);
+
+  }
+
+  .nav > .btn.secondary {
+
+    margin-left: 0;
+
+    white-space: nowrap;
+
+  }
+
+}
+ 
