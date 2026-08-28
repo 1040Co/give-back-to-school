@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 import { useRouter } from "next/navigation";
@@ -38,7 +38,9 @@ export default function TeacherSignInPage() {
 
     if (error) {
 
-      setMessage(error.message);
+      setMessage(
+        "We couldn’t sign you in. Please check your email and password and try again."
+);
 
       setLoading(false);
 
@@ -62,35 +64,33 @@ export default function TeacherSignInPage() {
 </p>
 <form className="card" onSubmit={handleSubmit}>
 <label>
-
           Email address
 <input
-
             type="email"
-
             value={email}
-
             onChange={(event) => setEmail(event.target.value)}
-
             required
 
           />
 </label>
 <label>
-
           Password
 <input
 
             type="password"
-
             value={password}
-
             onChange={(event) => setPassword(event.target.value)}
-
             required
 
           />
 </label>
+<Link className="text-link" href="/teacher/forgot-password">
+ Forgot password?
+</Link>
+<button className="btn" type="submit" disabled={loading}>
+ {loading ? "Signing in..." : "Sign in"}
+</button>
+  
 <button className="btn" type="submit" disabled={loading}>
 
           {loading ? "Signing in..." : "Sign in"}
