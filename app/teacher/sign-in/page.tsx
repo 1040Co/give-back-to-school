@@ -87,9 +87,6 @@ export default function TeacherSignInPage() {
 <Link className="text-link" href="/teacher/forgot-password">
  Forgot password?
 </Link>
-<button className="btn" type="submit" disabled={loading}>
- {loading ? "Signing in..." : "Sign in"}
-</button>
   
 <button className="btn" type="submit" disabled={loading}>
 
