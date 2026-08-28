@@ -134,16 +134,28 @@ export default async function NeedDetailPage({
        )}
 </section>
 <section className="card">
+ {need.status === "committed" ? (
+<>
+<div className="eyebrow">Commitment in progress</div>
+<h2>A giver has committed to this need.</h2>
+<p className="muted">
+       This classroom request is currently being fulfilled.
+</p>
+</>
+ ) : (
+<>
 <div className="eyebrow">Give this classroom what it needs</div>
 <h2>I want to provide this</h2>
 <p className="muted">
-         GBTS does not collect or hold money for this classroom request. The
-         giver provides the requested goods directly and GBTS tracks the
-         fulfilment.
+       GBTS does not collect or hold money for this classroom request. The
+       giver provides the requested goods directly and GBTS tracks the
+       fulfilment.
 </p>
 <Link className="btn" href={`/needs/${need.id}/commit`}>
- I&apos;ll provide this
+       I&apos;ll provide this
 </Link>
+</>
+ )}
 </section>
 </main>
  );
