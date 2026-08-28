@@ -1,121 +1,229 @@
 import Link from "next/link";
+
 import { notFound } from "next/navigation";
+
 import { createClient } from "../../../lib/supabase/server";
+
 export default async function NeedDetailPage({
- params,
+
+  params,
+
 }: {
- params: Promise<{ id: string }>;
+
+  params: Promise<{ id: string }>;
+
 }) {
- const { id } = await params;
- const supabase = await createClient();
- const { data: need } = await supabase
-   .from("needs")
-   .select(
-     `
-     id,
-     title,
-     description,
-     learners_benefiting,
-     estimated_value,
-     status,
-     teacher_profile_id,
-     school_id,
-     schools (
-       school_name,
-       municipality,
-       province,
-       region
-     ),
-     teacher_profiles (
-       user_id,
-       position_title,
-       grade_level,
-       subjects,
-       verification_status,
-       photo_public_consent
-     ),
-     need_items (
-       item_name,
-       quantity,
-       estimated_unit_cost
-     )
-     `
-   )
-   .eq("id", id)
-   .eq("status", "approved")
-   .maybeSingle();
- if (!need) {
-   notFound();
- }
- const school = Array.isArray(need.schools)
-   ? need.schools[0]
-   : need.schools;
- const teacherProfile = Array.isArray(need.teacher_profiles)
-   ? need.teacher_profiles[0]
-   : need.teacher_profiles;
- let teacherName = "Verified teacher";
- if (teacherProfile?.user_id) {
-   const { data: profile } = await supabase
-     .from("profiles")
-     .select("full_name")
-     .eq("id", teacherProfile.user_id)
-     .maybeSingle();
-   teacherName = profile?.full_name || "Verified teacher";
- }
- return (
-<main className="page">
-<Link className="text-link" href="/needs">
-       ← Back to school needs
+
+  const { id } = await params;
+
+  const supabase = await createClient();
+
+  const { data: need } = await supabase
+
+    .from("needs")
+
+    .select(
+
+      `
+
+      id,
+
+      title,
+
+      description,
+
+      learners_benefiting,
+
+      estimated_value,
+
+      status,
+
+      teacher_profile_id,
+
+      school_id,
+
+      schools (
+
+        school_name,
+
+        municipality,
+
+        province,
+
+        region
+
+      ),
+
+      teacher_profiles (
+
+        user_id,
+
+        position_title,
+
+        grade_level,
+
+        subjects,
+
+        verification_status,
+
+        photo_public_consent,
+
+        years_teaching,
+
+        professional_summary
+
+      ),
+
+      need_items (
+
+        item_name,
+
+        quantity,
+
+        estimated_unit_cost
+
+      )
+
+      `
+
+    )
+
+    .eq("id", id)
+
+    .in("status", ["approved", "committed"])
+
+    .maybeSingle();
+
+  if (!need) {
+
+    notFound();
+
+  }
+
+  const school = Array.isArray(need.schools)
+
+    ? need.schools[0]
+
+    : need.schools;
+
+  const teacherProfile = Array.isArray(need.teacher_profiles)
+
+    ? need.teacher_profiles[0]
+
+    : need.teacher_profiles;
+
+  let teacherName = "Verified teacher";
+
+  if (teacherProfile?.user_id) {
+
+    const { data: profile } = await supabase
+
+      .from("profiles")
+
+      .select("full_name")
+
+      .eq("id", teacherProfile.user_id)
+
+      .maybeSingle();
+
+    teacherName = profile?.full_name || "Verified teacher";
+
+  }
+
+  return (
+<main className="page need-detail-page">
+<Link className="text-link need-back-link" href="/needs">
+
+        ← Back to school needs
 </Link>
-<div className="eyebrow">Verified classroom need</div>
-<h1>{need.title}</h1>
-<p className="muted">
-       {school?.school_name || "Verified school"}
-       {school?.municipality ? ` · ${school.municipality}` : ""}
-       {school?.province ? `, ${school.province}` : ""}
+
+      {/* HERO */}
+<section className="need-hero">
+<div className="need-hero-main">
+<div className="need-verified-badge">
+
+            ✓ Verified classroom need
+</div>
+<h1 className="need-title">{need.title}</h1>
+<p className="need-location">
+
+            {school?.school_name || "Verified school"}
+
+            {school?.municipality ? ` · ${school.municipality}` : ""}
+
+            {school?.province ? `, ${school.province}` : ""}
 </p>
-<section className="card">
-<div className="need-meta">
-<span>
+
+          {need.description ? (
+<p className="need-hero-description">{need.description}</p>
+
+          ) : null}
+</div>
+<div className="need-hero-facts">
+<div className="need-fact">
 <strong>{need.learners_benefiting || 0}</strong>
-<small>Learners benefiting</small>
-</span>
-<span>
+<span>Learners benefiting</span>
+</div>
+<div className="need-fact">
 <strong>
-             ₱{Number(need.estimated_value || 0).toLocaleString()}
+
+              ₱{Number(need.estimated_value || 0).toLocaleString()}
 </strong>
-<small>Estimated value</small>
-</span>
+<span>Estimated value</span>
+</div>
+<div className="need-fact">
+<strong>Verified</strong>
+<span>Teacher request</span>
+</div>
 </div>
 </section>
-<section className="card">
-<div className="eyebrow">Teacher</div>
-<h2>{teacherName}</h2>
-<p className="status">✓ Verified teacher</p>
-       {teacherProfile?.position_title ? (
-<p className="muted">
-           {teacherProfile.position_title}
-           {teacherProfile.grade_level
-             ? ` · ${teacherProfile.grade_level}`
-             : ""}
-</p>
-       ) : null}
-       {teacherProfile?.subjects ? (
-<p className="muted">Subjects: {teacherProfile.subjects}</p>
-       ) : null}
-</section>
-<section className="card">
-<div className="eyebrow">Why this is needed</div>
-<p>{need.description || "No additional description provided."}</p>
-</section>
-<section className="card">
-<div className="eyebrow">Requested items</div>
-       {!need.need_items || need.need_items.length === 0 ? (
-<p className="muted">No item details available.</p>
-       ) : (
-         need.need_items.map((item: any, index: number) => (
-<div key={index} className="request-summary">
+
+      {/* MAIN CONTENT */}
+<div className="need-layout">
+<div className="need-main-column">
+
+          {/* WHY */}
+<section className="card need-section">
+<div className="need-section-heading">
+<span className="need-section-icon">♡</span>
 <div>
+<div className="eyebrow">The story behind the request</div>
+<h2>Why this is needed</h2>
+</div>
+</div>
+<p className="need-story">
+
+              {need.description || "No additional description provided."}
+</p>
+</section>
+
+          {/* ITEMS */}
+<section className="card need-section">
+<div className="need-section-heading">
+<span className="need-section-icon">□</span>
+<div>
+<div className="eyebrow">Specific goods requested</div>
+<h2>What the classroom needs</h2>
+</div>
+</div>
+
+            {!need.need_items || need.need_items.length === 0 ? (
+<p className="muted">No item details available.</p>
+
+            ) : (
+<div className="need-items">
+
+                {need.need_items.map((item: any, index: number) => {
+
+                  const total =
+
+                    Number(item.quantity || 0) *
+
+                    Number(item.estimated_unit_cost || 0);
+
+                  return (
+<div key={index} className="need-item-row">
+<div className="need-item-name">
 <span>Item</span>
 <strong>{item.item_name}</strong>
 </div>
@@ -126,37 +234,188 @@ export default async function NeedDetailPage({
 <div>
 <span>Estimated unit cost</span>
 <strong>
-                 ₱{Number(item.estimated_unit_cost || 0).toLocaleString()}
+
+                          ₱
+
+                          {Number(
+
+                            item.estimated_unit_cost || 0
+
+                          ).toLocaleString()}
 </strong>
 </div>
+<div>
+<span>Estimated total</span>
+<strong>₱{total.toLocaleString()}</strong>
 </div>
-         ))
-       )}
+</div>
+
+                  );
+
+                })}
+</div>
+
+            )}
 </section>
-<section className="card">
- {need.status === "committed" ? (
-<>
+
+          {/* PHOTOS — READY FOR NEXT PHASE */}
+<section className="card need-section need-photo-intro">
+<div className="need-section-heading">
+<span className="need-section-icon">▧</span>
+<div>
+<div className="eyebrow">Classroom context</div>
+<h2>Photos from the classroom</h2>
+</div>
+</div>
+<div className="need-photo-placeholder">
+<p>Classroom photos will appear here.</p>
+<span>
+
+                We’ll add teacher-uploaded request photos while protecting
+
+                learner privacy.
+</span>
+</div>
+</section>
+</div>
+
+        {/* SIDEBAR */}
+<aside className="need-sidebar">
+
+          {/* TEACHER */}
+<section className="card teacher-card">
+<div className="eyebrow">The teacher behind this request</div>
+<div className="teacher-identity">
+<div className="teacher-avatar">
+
+                {teacherName.charAt(0).toUpperCase()}
+</div>
+<div>
+<h2>{teacherName}</h2>
+<p className="status">✓ Verified teacher</p>
+</div>
+</div>
+
+            {teacherProfile?.position_title ? (
+<p className="teacher-detail">
+
+                {teacherProfile.position_title}
+
+                {teacherProfile.grade_level
+
+                  ? ` · ${teacherProfile.grade_level}`
+
+                  : ""}
+</p>
+
+            ) : null}
+
+            {teacherProfile?.years_teaching ? (
+<p className="teacher-detail">
+
+                {teacherProfile.years_teaching} years teaching
+</p>
+
+            ) : null}
+
+            {teacherProfile?.subjects ? (
+<p className="teacher-detail">
+
+                Subjects: {teacherProfile.subjects}
+</p>
+
+            ) : null}
+
+            {teacherProfile?.professional_summary ? (
+<p className="teacher-summary">
+
+                {teacherProfile.professional_summary}
+</p>
+
+            ) : null}
+</section>
+
+          {/* TRUST */}
+<section className="card trust-card">
+<div className="eyebrow">Trust & transparency</div>
+<h2>How giving works</h2>
+<div className="trust-list">
+<div>
+<strong>Verified teachers only</strong>
+<span>Teachers are reviewed before they can post.</span>
+</div>
+<div>
+<strong>Physical goods only</strong>
+<span>Requests are for specific classroom goods.</span>
+</div>
+<div>
+<strong>You give directly</strong>
+<span>You purchase or provide the requested goods.</span>
+</div>
+<div>
+<strong>GBTS does not handle money</strong>
+<span>We do not collect or hold donation funds.</span>
+</div>
+<div>
+<strong>Fulfilment is tracked</strong>
+<span>GBTS tracks the request through completion.</span>
+</div>
+</div>
+</section>
+</aside>
+</div>
+
+      {/* FINAL CTA */}
+<section className="need-commit-panel">
+
+        {need.status === "committed" ? (
+<div>
 <div className="eyebrow">Commitment in progress</div>
-<h2>A giver has committed to this need.</h2>
-<p className="muted">
-       This classroom request is currently being fulfilled.
+<h2>A giver has committed to this classroom need.</h2>
+<p>
+
+              This request is currently being fulfilled and is no longer
+
+              available for another commitment.
 </p>
-</>
- ) : (
+</div>
+
+        ) : (
 <>
-<div className="eyebrow">Give this classroom what it needs</div>
-<h2>I want to provide this</h2>
-<p className="muted">
-       GBTS does not collect or hold money for this classroom request. The
-       giver provides the requested goods directly and GBTS tracks the
-       fulfilment.
+<div className="need-commit-copy">
+<div className="eyebrow">Direct classroom giving</div>
+<h2>Give this classroom what it needs</h2>
+<p>
+
+                You provide the requested goods directly. GBTS does not
+
+                collect or hold your money.
 </p>
-<Link className="btn" href={`/needs/${need.id}/commit`}>
-       I&apos;ll provide this
+</div>
+<div className="need-commit-action">
+<span>Estimated value</span>
+<strong>
+
+                ₱{Number(need.estimated_value || 0).toLocaleString()}
+</strong>
+<Link
+
+                className="btn"
+
+                href={`/needs/${need.id}/commit`}
+>
+
+                I&apos;ll provide this
 </Link>
+<small>One classroom commitment at a time.</small>
+</div>
 </>
- )}
+
+        )}
 </section>
 </main>
- );
+
+  );
+
 }
+ 
