@@ -56,14 +56,19 @@ import { createClient } from "../../../../lib/supabase/client";
   });
 
   if (error) {
-
-    setMessage(error.message);
-
-    setLoading(false);
-
-    return;
-
-  }
+ if (
+   error.message.toLowerCase().includes("rate") ||
+   error.message.toLowerCase().includes("email")
+ ) {
+   setMessage(
+     "Too many verification emails were requested. Please wait a while before trying again. If you already requested one, check your inbox and spam folder first."
+   );
+ } else {
+   setMessage(error.message);
+ }
+ setLoading(false);
+ return;
+}
 
   setMessage(
 
