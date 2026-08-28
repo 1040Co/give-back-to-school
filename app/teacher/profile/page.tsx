@@ -243,11 +243,22 @@ export default function TeacherProfilePage() {
 <label>
            Short professional background
 <textarea
-   rows={4}
-   value={professionalSummary}
-   onChange={(event) => setProfessionalSummary(event.target.value)}
-   placeholder="Example: Teaching elementary students since 2018. Currently handles Grade 6 English and serves as the school reading coordinator."
- />
+
+  rows={4}
+
+  maxLength={300}
+
+  value={professionalSummary}
+
+  onChange={(event) => setProfessionalSummary(event.target.value)}
+
+  placeholder="Example: Teaching elementary students since 2018. Currently handles Grade..."
+
+/>
+<small className="muted">
+
+  {professionalSummary.length} / 300 characters
+</small>  
 </label>
   
 <label>
