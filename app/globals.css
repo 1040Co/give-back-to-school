@@ -726,7 +726,7 @@ form.card label:has(input[type="checkbox"]) {
   }
 }
 .section {
- border-top: 1px solid var(--gbts-stone);
+ border-top: 1px solid #eceeef;
 }
 h1,
 h2,
