@@ -24,24 +24,73 @@ export default function GiverConfirmPage() {
 
       } = await supabase.auth.getUser();
 
-      if (!user) {
+  if (!user) {
 
-        setStatus(
+  setStatus(
 
-          "We could not confirm your email session. Please return to the classroom need and try again."
+    "We could not confirm your email session. Please return to the classroom need and try again."
 
-        );
+  );
 
-        return;
+  return;
 
-      }
+}
 
-      const savedNeedId = String(user.user_metadata?.need_id || "");
+const savedNeedId = String(user.user_metadata?.need_id || "");
 
-      setNeedId(savedNeedId);
+const anonymous = Boolean(user.user_metadata?.anonymous);
 
-      setStatus("Email verified successfully.");
+const fullName = String(user.user_metadata?.full_name || "");
 
+setNeedId(savedNeedId);
+
+if (!savedNeedId) {
+
+  setStatus(
+
+    "Your email was verified, but we could not identify the classroom need."
+
+  );
+
+  return;
+
+}
+
+const { data: existingCommitment } = await supabase
+
+  .from("commitments")
+
+  .select("id")
+
+  .eq("need_id", savedNeedId)
+
+  .eq("giver_id", user.id)
+
+  .maybeSingle();
+
+if (existingCommitment) {
+
+  setStatus("Your commitment is already active.");
+
+  return;
+
+}
+
+const { error } = await supabase.rpc("claim_need", {
+ p_need_id: savedNeedId,
+ p_is_anonymous: anonymous,
+ p_public_display_name: anonymous ? null : fullName,
+});
+
+if (error) {
+
+  setStatus(error.message);
+
+  return;
+
+}
+
+setStatus("Email verified and commitment confirmed.");
     }
 
     checkUser();
