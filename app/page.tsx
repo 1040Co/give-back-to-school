@@ -1,8 +1,18 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+ 
 
 import { createClient } from "../lib/supabase/server";
 
-export default async function Home() {
+export default async function Home({
+ searchParams,
+}: {
+ searchParams: Promise<{ code?: string }>;
+}) {
+ const { code } = await searchParams;
+ if (code) {
+   redirect(`/giver/callback?code=${encodeURIComponent(code)}`);
+ }
 
   const supabase = await createClient();
   
