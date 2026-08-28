@@ -39,13 +39,15 @@ import { createClient } from "../../../../lib/supabase/client";
 
     options: {
 
-      emailRedirectTo: `${window.location.origin}/needs/${needId}/commit/confirm`,
-
+     emailRedirectTo: `${window.location.origin}/giver/confirm`,
+  
       data: {
 
         full_name: fullName,
 
         anonymous,
+
+        need_id: needId,
 
       },
 
