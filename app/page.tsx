@@ -119,7 +119,7 @@ export default async function Home() {
 </p>
 </div>
 </section>
-<section className="section">
+<section className="section section-soft">
 <div className="section-heading">
 <div>
 <div className="eyebrow">Pilot dashboard</div>
