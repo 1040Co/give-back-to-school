@@ -843,4 +843,659 @@ h3,
   }
 
 }
- 
+/* =========================================================
+
+   CLASSROOM NEED DETAIL
+
+   ========================================================= */
+
+.need-detail-page {
+
+  max-width: 1180px;
+
+  margin: 0 auto;
+
+}
+
+.need-back-link {
+
+  display: inline-block;
+
+  margin-bottom: 28px;
+
+}
+
+.need-hero {
+
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+
+  gap: 32px;
+
+  align-items: end;
+
+  padding: 8px 0 36px;
+
+  border-bottom: 1px solid var(--gbts-stone);
+
+}
+
+.need-verified-badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  width: fit-content;
+
+  padding: 7px 11px;
+
+  margin-bottom: 18px;
+
+  border: 1px solid var(--gbts-stone);
+
+  border-radius: 999px;
+
+  background: var(--gbts-offwhite);
+
+  color: var(--gbts-charcoal);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
+
+}
+
+.need-title {
+
+  max-width: 760px;
+
+  margin: 0;
+
+  font-size: clamp(42px, 6vw, 72px);
+
+  line-height: 0.98;
+
+  letter-spacing: -0.055em;
+
+}
+
+.need-location {
+
+  margin: 20px 0 0;
+
+  color: var(--gbts-slate);
+
+  font-size: 16px;
+
+}
+
+.need-hero-description {
+
+  max-width: 720px;
+
+  margin: 24px 0 0;
+
+  color: var(--gbts-charcoal);
+
+  font-size: 19px;
+
+  line-height: 1.65;
+
+}
+
+.need-hero-facts {
+
+  display: grid;
+
+  gap: 12px;
+
+}
+
+.need-fact {
+
+  padding: 18px 0;
+
+  border-top: 1px solid var(--gbts-stone);
+
+}
+
+.need-fact strong,
+
+.need-fact span {
+
+  display: block;
+
+}
+
+.need-fact strong {
+
+  color: var(--gbts-charcoal);
+
+  font-size: 26px;
+
+  line-height: 1.1;
+
+}
+
+.need-fact span {
+
+  margin-top: 5px;
+
+  color: var(--gbts-slate);
+
+  font-size: 13px;
+
+}
+
+.need-layout {
+
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 0.75fr);
+
+  gap: 24px;
+
+  align-items: start;
+
+  margin-top: 32px;
+
+}
+
+.need-main-column,
+
+.need-sidebar {
+
+  display: grid;
+
+  gap: 24px;
+
+}
+
+.need-sidebar {
+
+  position: sticky;
+
+  top: 24px;
+
+}
+
+.need-section {
+
+  padding: 30px;
+
+}
+
+.need-section-heading {
+
+  display: flex;
+
+  gap: 16px;
+
+  align-items: flex-start;
+
+  margin-bottom: 24px;
+
+}
+
+.need-section-heading h2,
+
+.teacher-card h2,
+
+.trust-card h2,
+
+.need-commit-panel h2 {
+
+  margin: 4px 0 0;
+
+}
+
+.need-section-icon {
+
+  display: grid;
+
+  flex: 0 0 42px;
+
+  width: 42px;
+
+  height: 42px;
+
+  place-items: center;
+
+  border: 1px solid var(--gbts-stone);
+
+  border-radius: 50%;
+
+  background: var(--gbts-offwhite);
+
+  color: var(--gbts-charcoal);
+
+  font-size: 20px;
+
+}
+
+.need-story {
+
+  max-width: 760px;
+
+  margin: 0;
+
+  color: var(--gbts-charcoal);
+
+  font-size: 17px;
+
+  line-height: 1.8;
+
+  white-space: pre-line;
+
+}
+
+.need-items {
+
+  display: grid;
+
+}
+
+.need-item-row {
+
+  display: grid;
+
+  grid-template-columns: minmax(180px, 1.7fr) 0.6fr 1fr 1fr;
+
+  gap: 20px;
+
+  padding: 20px 0;
+
+  border-top: 1px solid var(--gbts-stone);
+
+}
+
+.need-item-row:first-child {
+
+  border-top: 0;
+
+}
+
+.need-item-row > div {
+
+  min-width: 0;
+
+}
+
+.need-item-row span,
+
+.need-item-row strong {
+
+  display: block;
+
+}
+
+.need-item-row span {
+
+  margin-bottom: 6px;
+
+  color: var(--gbts-slate);
+
+  font-size: 12px;
+
+}
+
+.need-item-row strong {
+
+  color: var(--gbts-charcoal);
+
+  font-size: 15px;
+
+}
+
+.teacher-card,
+
+.trust-card {
+
+  padding: 26px;
+
+}
+
+.teacher-identity {
+
+  display: flex;
+
+  gap: 14px;
+
+  align-items: center;
+
+  margin: 20px 0;
+
+}
+
+.teacher-avatar {
+
+  display: grid;
+
+  flex: 0 0 58px;
+
+  width: 58px;
+
+  height: 58px;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--gbts-warm);
+
+  color: var(--gbts-charcoal);
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+}
+
+.teacher-identity h2 {
+
+  font-size: 22px;
+
+}
+
+.teacher-detail,
+
+.teacher-summary {
+
+  color: var(--gbts-slate);
+
+  line-height: 1.6;
+
+}
+
+.teacher-detail {
+
+  margin: 8px 0;
+
+  font-size: 14px;
+
+}
+
+.teacher-summary {
+
+  margin: 20px 0 0;
+
+  padding-top: 18px;
+
+  border-top: 1px solid var(--gbts-stone);
+
+  font-size: 14px;
+
+}
+
+.trust-list {
+
+  display: grid;
+
+  gap: 18px;
+
+  margin-top: 22px;
+
+}
+
+.trust-list div {
+
+  padding-top: 16px;
+
+  border-top: 1px solid var(--gbts-stone);
+
+}
+
+.trust-list strong,
+
+.trust-list span {
+
+  display: block;
+
+}
+
+.trust-list strong {
+
+  margin-bottom: 4px;
+
+  color: var(--gbts-charcoal);
+
+  font-size: 14px;
+
+}
+
+.trust-list span {
+
+  color: var(--gbts-slate);
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+}
+
+.need-photo-placeholder {
+
+  min-height: 230px;
+
+  display: grid;
+
+  place-content: center;
+
+  padding: 36px;
+
+  border: 1px dashed var(--gbts-stone-dark);
+
+  border-radius: 18px;
+
+  background: var(--gbts-offwhite);
+
+  text-align: center;
+
+}
+
+.need-photo-placeholder p {
+
+  margin: 0;
+
+  color: var(--gbts-charcoal);
+
+  font-weight: 600;
+
+}
+
+.need-photo-placeholder span {
+
+  display: block;
+
+  max-width: 460px;
+
+  margin-top: 8px;
+
+  color: var(--gbts-slate);
+
+  font-size: 13px;
+
+  line-height: 1.55;
+
+}
+
+.need-commit-panel {
+
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr);
+
+  gap: 32px;
+
+  align-items: center;
+
+  margin-top: 28px;
+
+  padding: 34px;
+
+  border: 1px solid var(--gbts-stone);
+
+  border-radius: 24px;
+
+  background: var(--gbts-warm);
+
+}
+
+.need-commit-copy p {
+
+  max-width: 640px;
+
+  margin-bottom: 0;
+
+  color: var(--gbts-slate);
+
+  line-height: 1.6;
+
+}
+
+.need-commit-action {
+
+  padding: 22px;
+
+  border: 1px solid var(--gbts-stone);
+
+  border-radius: 18px;
+
+  background: var(--gbts-white);
+
+}
+
+.need-commit-action > span,
+
+.need-commit-action > strong,
+
+.need-commit-action > small {
+
+  display: block;
+
+}
+
+.need-commit-action > span {
+
+  color: var(--gbts-slate);
+
+  font-size: 13px;
+
+}
+
+.need-commit-action > strong {
+
+  margin: 5px 0 18px;
+
+  color: var(--gbts-charcoal);
+
+  font-size: 32px;
+
+  letter-spacing: -0.04em;
+
+}
+
+.need-commit-action .btn {
+
+  width: 100%;
+
+  text-align: center;
+
+}
+
+.need-commit-action > small {
+
+  margin-top: 10px;
+
+  color: var(--gbts-slate);
+
+  text-align: center;
+
+}
+
+@media (max-width: 900px) {
+
+  .need-hero,
+
+  .need-layout,
+
+  .need-commit-panel {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .need-sidebar {
+
+    position: static;
+
+  }
+
+  .need-title {
+
+    font-size: clamp(40px, 10vw, 58px);
+
+  }
+
+}
+
+@media (max-width: 650px) {
+
+  .need-detail-page {
+
+    padding-left: 18px;
+
+    padding-right: 18px;
+
+  }
+
+  .need-hero {
+
+    padding-bottom: 28px;
+
+  }
+
+  .need-hero-description {
+
+    font-size: 17px;
+
+  }
+
+  .need-section,
+
+  .teacher-card,
+
+  .trust-card,
+
+  .need-commit-panel {
+
+    padding: 22px;
+
+  }
+
+  .need-item-row {
+
+    grid-template-columns: 1fr 1fr;
+
+  }
+
+  .need-item-name {
+
+    grid-column: 1 / -1;
+
+  }
+
+  .need-commit-action > strong {
+
+    font-size: 28px;
+
+  }
+
+}
+  
