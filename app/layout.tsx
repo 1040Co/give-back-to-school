@@ -48,6 +48,15 @@ export default function Layout({
 <Link href="/about">Mission</Link>
 <Link href="/faq">FAQ</Link>
 </nav>
+<details className="mobile-menu">
+<summary>Menu</summary>
+<div className="mobile-menu-panel">
+<Link href="/needs">School Needs</Link>
+<Link href="/how-it-works">How It Works</Link>
+<Link href="/about">Mission</Link>
+<Link href="/faq">FAQ</Link>
+</div>
+</details>
 <Link className="btn secondary" href="/teacher">
 
               For Teachers
