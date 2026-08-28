@@ -14,6 +14,8 @@ export default function GiverConfirmPage() {
 
   const [needId, setNeedId] = useState("");
 
+  const [success, setSuccess] = useState(false);
+
   useEffect(() => {
 
     async function checkUser() {
@@ -90,7 +92,8 @@ if (error) {
 
 }
 
-setStatus("Email verified and commitment confirmed.");
+setSuccess(true);
+setStatus("Commitment confirmed.");
     }
 
     checkUser();
@@ -100,11 +103,33 @@ setStatus("Email verified and commitment confirmed.");
   return (
 <main className="page">
 <div className="eyebrow">Giver verification</div>
+{success ? (
+<section className="card">
+<div className="eyebrow">Commitment confirmed</div>
+<h1>Thank you for supporting this classroom.</h1>
+<p className="muted">
+
+      Your email is verified and your commitment is now active.
+</p>
+<div className="callout">
+
+      Please continue with the fulfilment process and provide the requested
+
+      goods within the expected timeframe.
+</div>
+</section>
+
+) : (
+<>
 <h1>{status}</h1>
 <p className="muted">
 
-        Your classroom commitment has not been created yet.
+      Your classroom commitment has not been created yet.
 </p>
+</>
+
+)}
+ 
 
       {needId ? (
 <Link className="btn" href={`/needs/${needId}`}>
