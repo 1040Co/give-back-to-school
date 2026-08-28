@@ -866,7 +866,10 @@ h3,
 }
 
 .need-hero {
- display: block;
+ display: grid;
+ grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.65fr);
+ gap: 48px;
+ align-items: start;
  padding: 8px 0 32px;
  border-bottom: 1px solid var(--gbts-stone);
 }
@@ -940,14 +943,12 @@ h3,
 
 .need-hero-facts {
  display: grid;
- grid-template-columns: repeat(3, minmax(0, 1fr));
- gap: 32px;
- margin-top: 32px;
- max-width: 760px;
+ gap: 0;
+ align-self: stretch;
 }
 
 .need-fact {
- padding: 18px 0 0;
+ padding: 18px 0;
  border-top: 1px solid var(--gbts-stone);
 }
 
@@ -1410,6 +1411,14 @@ h3,
     grid-template-columns: 1fr;
 
   }
+   .need-hero {
+ grid-template-columns: 1fr;
+ gap: 24px;
+}
+.need-hero-facts {
+ grid-template-columns: repeat(3, minmax(0, 1fr));
+ gap: 20px;
+}
 
   .need-sidebar {
 
