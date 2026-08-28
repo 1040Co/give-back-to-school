@@ -141,9 +141,9 @@ export default async function NeedDetailPage({
          giver provides the requested goods directly and GBTS tracks the
          fulfilment.
 </p>
-<button className="btn" type="button">
-         I&apos;ll provide this
-</button>
+<Link className="btn" href={`/needs/${need.id}/commit`}>
+ I&apos;ll provide this
+</Link>
 </section>
 </main>
  );
