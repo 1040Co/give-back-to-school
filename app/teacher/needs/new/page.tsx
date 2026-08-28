@@ -27,6 +27,9 @@ export default function NewTeacherNeedPage() {
   const [message, setMessage] = useState("");
 
   const [loading, setLoading] = useState(false);
+  
+  const [photo, setPhoto] = useState<File | null>(null);
+ 
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 
@@ -156,7 +159,58 @@ export default function NewTeacherNeedPage() {
 
     }
 
-    const { error: itemError } = await supabase
+    if (photo) {
+
+  const fileExtension = photo.name.split(".").pop() || "jpg";
+
+  const filePath = `${teacherProfile.id}/${need.id}/${crypto.randomUUID()}.${fileExtension}`;
+
+  const { error: uploadError } = await supabase.storage
+
+    .from("need-photos")
+
+    .upload(filePath, photo, {
+
+      cacheControl: "3600",
+
+      upsert: false,
+
+    });
+
+  if (uploadError) {
+
+    setMessage("The classroom need was created, but the photo could not be uploaded.");
+
+    setLoading(false);
+
+    return;
+
+  }
+
+  const { error: photoUpdateError } = await supabase
+
+    .from("needs")
+
+    .update({
+
+      photo_path: filePath,
+
+    })
+
+    .eq("id", need.id);
+
+  if (photoUpdateError) {
+
+    setMessage("The photo was uploaded, but it could not be linked to the classroom need.");
+
+    setLoading(false);
+
+    return;
+
+  }
+
+}
+  const { error: itemError } = await supabase
 
       .from("need_items")
 
@@ -237,6 +291,20 @@ export default function NewTeacherNeedPage() {
             required
 
           />
+</label>
+  <label>
+ Classroom / need photo
+<input
+   type="file"
+   accept="image/jpeg,image/png,image/webp"
+   onChange={(event) =>
+     setPhoto(event.target.files?.[0] || null)
+   }
+ />
+<small className="muted">
+   Optional. Upload one clear photo showing the classroom need or item context.
+   Please do not upload identifiable photos of learners.
+</small>
 </label>
 <label>
 
