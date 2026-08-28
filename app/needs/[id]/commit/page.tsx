@@ -149,7 +149,7 @@ import { createClient } from "../../../../lib/supabase/client";
 >
  {loading ? "Sending verification..." : "Continue to email verification"}
 </button>
-{message ? <p className="muted">{message}</p> : null}
+{message ? <div className="callout">{message}</div> : null}
 </form>
 </main>
  );
