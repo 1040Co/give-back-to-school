@@ -152,7 +152,12 @@ export default function GiverCommitPage() {
 
     }
 
-    router.push("/giver/confirm");
+    const params = new URLSearchParams({
+ need_id: needId,
+ full_name: fullName,
+ anonymous: anonymous ? "true" : "false",
+});
+router.push(`/giver/confirm?${params.toString()}`);
 
   }
 
