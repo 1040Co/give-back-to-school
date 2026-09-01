@@ -9,9 +9,15 @@ export async function GET(request: Request) {
  const supabase = await createClient();
  const { error } = await supabase.auth.exchangeCodeForSession(code);
  if (error) {
-   return NextResponse.redirect(
-     new URL("/giver/confirm?error=verification_failed", url.origin)
-   );
- }
+ console.error("Giver verification exchange failed:", error);
+ return NextResponse.redirect(
+   new URL(
+     `/giver/confirm?error=${encodeURIComponent(
+       error.code || "verification_failed"
+     )}`,
+     url.origin
+   )
+ );
+}
  return NextResponse.redirect(new URL("/giver/confirm", url.origin));
 }
