@@ -38,6 +38,8 @@ export default async function NeedDetailPage({
 
       status,
 
+      photo_path,
+
       teacher_profile_id,
 
       school_id,
@@ -129,8 +131,14 @@ export default async function NeedDetailPage({
     teacherName = profile?.full_name || "Verified teacher";
 
   }
-
-  return (
+let photoUrl = "";
+if (need.photo_path) {
+ const { data } = supabase.storage
+   .from("need-photos")
+   .getPublicUrl(need.photo_path);
+ photoUrl = data.publicUrl;
+}
+return (
 <main className="page need-detail-page">
 <Link className="text-link need-back-link" href="/needs">
 
@@ -254,24 +262,27 @@ export default async function NeedDetailPage({
 </section>
 
           {/* PHOTOS — READY FOR NEXT PHASE */}
+{photoUrl ? (
 <section className="card need-section need-photo-intro">
 <div className="need-section-heading">
 <span className="need-section-icon">▧</span>
 <div>
 <div className="eyebrow">Classroom context</div>
-<h2>Photos from the classroom</h2>
+<h2>Photo from the classroom</h2>
 </div>
 </div>
-<div className="need-photo-placeholder">
-<p>Classroom photos will appear here.</p>
-<span>
-
-                We’ll add teacher-uploaded request photos while protecting
-
-                learner privacy.
-</span>
+<div className="need-photo-wrap">
+<img
+       src={photoUrl}
+       alt={`Classroom context for ${need.title}`}
+       className="need-photo"
+     />
 </div>
+<p className="muted need-photo-note">
+     Photo provided by the verified teacher for this classroom request.
+</p>
 </section>
+) : null}
 </div>
 
         {/* SIDEBAR */}
