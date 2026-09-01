@@ -302,8 +302,9 @@ export default function NewTeacherNeedPage() {
    }
  />
 <small className="muted">
-   Optional. Upload one clear photo showing the classroom need or item context.
-   Please do not upload identifiable photos of learners.
+   Optional. Upload one clear photo showing the classroom, existing equipment,
+ damaged item, or area related to the request. Do not include students or
+ other identifiable children in the photo.
 </small>
 </label>
 <label>
