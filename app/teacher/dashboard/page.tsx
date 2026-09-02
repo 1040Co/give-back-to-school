@@ -391,6 +391,16 @@ export default async function TeacherDashboardPage() {
 <span>Learners benefiting</span>
 <strong>{activeNeed.learners_benefiting}</strong>
 </div>
+{["committed", "fulfilled"].includes(activeNeed.status) ? (
+<Link
+   className="btn"
+   href={`/teacher/needs/${activeNeed.id}/fulfilment`}
+>
+   Confirm goods received
+</Link>
+) : null}
+
+ 
 <div>
 <span>Estimated value</span>
 <strong>
