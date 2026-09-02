@@ -363,7 +363,7 @@ if (need.fulfilment_photo_path) {
     ) : null}
 </section>
 ) : null}
-) : null}
+
 </div>
 
         {/* SIDEBAR */}
