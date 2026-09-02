@@ -297,6 +297,7 @@ if (need.fulfilment_photo_path) {
      Photo provided by the verified teacher for this classroom request.
 </p>
 </section>
+    ) : null}
 {need.status === "completed" ? (
 <section className="card need-section fulfilment-proof">
 <div className="need-section-heading">
