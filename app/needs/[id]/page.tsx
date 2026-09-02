@@ -92,7 +92,7 @@ export default async function NeedDetailPage({
 
     .eq("id", id)
 
-    .in("status", ["approved", "committed"])
+    .in("status", ["approved", "committed", "fulfilled", "completed"])
 
     .maybeSingle();
 
