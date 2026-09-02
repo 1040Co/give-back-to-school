@@ -40,6 +40,14 @@ export default async function NeedDetailPage({
 
       photo_path,
 
+     teacher_confirmed_at,
+
+      fulfilment_note,
+
+    fulfilment_photo_path,
+
+    completed_at,
+ 
       teacher_profile_id,
 
       school_id,
@@ -138,7 +146,14 @@ if (need.photo_path) {
    .getPublicUrl(need.photo_path);
  photoUrl = data.publicUrl;
 }
-return (
+let fulfilmentPhotoUrl = "";
+if (need.fulfilment_photo_path) {
+ const { data } = supabase.storage
+   .from("fulfilment-photos")
+   .getPublicUrl(need.fulfilment_photo_path);
+ fulfilmentPhotoUrl = data.publicUrl;
+} 
+  return (
 <main className="page need-detail-page">
 <Link className="text-link need-back-link" href="/needs">
 
@@ -282,6 +297,71 @@ return (
      Photo provided by the verified teacher for this classroom request.
 </p>
 </section>
+{need.status === "completed" ? (
+<section className="card need-section fulfilment-proof">
+<div className="need-section-heading">
+<span className="need-section-icon">✓</span>
+<div>
+<div className="eyebrow">Fulfilment confirmed</div>
+<h2>Received by the classroom</h2>
+</div>
+</div>
+<div className="fulfilment-status">
+<strong>✓ Classroom need completed</strong>
+<span>
+
+        The verified teacher confirmed that the requested goods were received.
+</span>
+</div>
+
+    {need.teacher_confirmed_at ? (
+<p className="muted">
+
+        Confirmed on{" "}
+
+        {new Date(need.teacher_confirmed_at).toLocaleDateString("en-PH", {
+
+          year: "numeric",
+
+          month: "long",
+
+          day: "numeric",
+
+        })}
+</p>
+
+    ) : null}
+
+    {need.fulfilment_note ? (
+<div className="fulfilment-note">
+<div className="eyebrow">Teacher receipt note</div>
+<p>{need.fulfilment_note}</p>
+</div>
+
+    ) : null}
+
+    {fulfilmentPhotoUrl ? (
+<>
+<div className="need-photo-wrap">
+<img
+
+            src={fulfilmentPhotoUrl}
+
+            alt={`Fulfilment confirmation for ${need.title}`}
+
+            className="need-photo"
+
+          />
+</div>
+<p className="muted need-photo-note">
+
+          Fulfilment photo provided by the verified teacher after receipt.
+</p>
+</>
+
+    ) : null}
+</section>
+) : null}
 ) : null}
 </div>
 
@@ -373,51 +453,49 @@ return (
 
       {/* FINAL CTA */}
 <section className="need-commit-panel">
-
-        {need.status === "committed" ? (
+ {need.status === "completed" ? (
+<div>
+<div className="eyebrow">Completed classroom need</div>
+<h2>This classroom received the requested goods.</h2>
+<p>
+       Receipt was confirmed by the verified teacher. This request is now
+       complete and is no longer accepting commitments.
+</p>
+</div>
+ ) : ["committed", "fulfilled"].includes(need.status) ? (
 <div>
 <div className="eyebrow">Commitment in progress</div>
 <h2>A giver has committed to this classroom need.</h2>
 <p>
-
-              This request is currently being fulfilled and is no longer
-
-              available for another commitment.
+       This request is currently being fulfilled and is no longer available
+       for another commitment.
 </p>
 </div>
-
-        ) : (
+ ) : (
 <>
 <div className="need-commit-copy">
 <div className="eyebrow">Direct classroom giving</div>
 <h2>Give this classroom what it needs</h2>
 <p>
-
-                You provide the requested goods directly. GBTS does not
-
-                collect or hold your money.
+         You provide the requested goods directly. GBTS does not collect or
+         hold your money.
 </p>
 </div>
 <div className="need-commit-action">
 <span>Estimated value</span>
 <strong>
-
-                ₱{Number(need.estimated_value || 0).toLocaleString()}
+         ₱{Number(need.estimated_value || 0).toLocaleString()}
 </strong>
 <Link
-
-                className="btn"
-
-                href={`/needs/${need.id}/commit`}
+         className="btn"
+         href={`/needs/${need.id}/commit`}
 >
-
-                I&apos;ll provide this
+         I&apos;ll provide this
 </Link>
 <small>One classroom commitment at a time.</small>
 </div>
 </>
-
-        )}
+ )}
 </section>
 </main>
 
