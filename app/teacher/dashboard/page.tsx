@@ -392,13 +392,30 @@ export default async function TeacherDashboardPage() {
 <strong>{activeNeed.learners_benefiting}</strong>
 </div>
 {["committed", "fulfilled"].includes(activeNeed.status) ? (
+<div className="receipt-action">
+<div>
+<div className="eyebrow">Next step</div>
+<h3>Have the goods arrived?</h3>
+<p className="muted">
+
+        Once you have physically received the requested items, confirm receipt
+
+        so this classroom request can be marked completed.
+</p>
+</div>
 <Link
-   className="btn"
-   href={`/teacher/needs/${activeNeed.id}/fulfilment`}
+
+      className="btn"
+
+      href={`/teacher/needs/${activeNeed.id}/fulfilment`}
 >
-   Confirm goods received
+
+      Confirm goods received
 </Link>
+</div>
+
 ) : null}
+ 
 
  
 <div>
