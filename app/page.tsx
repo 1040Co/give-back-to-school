@@ -296,9 +296,25 @@ export default async function Home({
           ? need.schools[0]
 
           : need.schools;
+       let fulfilmentPhotoUrl = "";
+if (need.fulfilment_photo_path) {
+ const { data } = supabase.storage
+   .from("fulfilment-photos")
+   .getPublicUrl(need.fulfilment_photo_path);
+ fulfilmentPhotoUrl = data.publicUrl;
+}
 
         return (
 <article className="need-card" key={need.id}>
+ {fulfilmentPhotoUrl ? (
+<div className="milestone-photo-wrap">
+<img
+     src={fulfilmentPhotoUrl}
+     alt={`Completed classroom need: ${need.title}`}
+     className="milestone-photo"
+   />
+</div>
+) : null}
 <div className="need-topline">
 <span className="status-badge">Completed</span>
 <span>{need.learners_benefiting || 0} learners</span>
