@@ -391,6 +391,25 @@ export default async function TeacherDashboardPage() {
 <span>Learners benefiting</span>
 <strong>{activeNeed.learners_benefiting}</strong>
 </div>
+ <div>
+<span>Estimated value</span>
+<strong>
+                     ₱
+                     {Number(activeNeed.estimated_value).toLocaleString(
+                       "en-PH",
+                       {
+                         minimumFractionDigits: 2,
+                         maximumFractionDigits: 2,
+                       }
+                     )}
+</strong>
+</div>
+ <div>
+<span>Status</span>
+<strong>{formatStatus(activeNeed.status)}</strong>
+</div>
+</div>
+ 
 {["committed", "fulfilled"].includes(activeNeed.status) ? (
 <div className="receipt-action">
 <div>
@@ -417,25 +436,6 @@ export default async function TeacherDashboardPage() {
 ) : null}
  
 
- 
-<div>
-<span>Estimated value</span>
-<strong>
-                     ₱
-                     {Number(activeNeed.estimated_value).toLocaleString(
-                       "en-PH",
-                       {
-                         minimumFractionDigits: 2,
-                         maximumFractionDigits: 2,
-                       }
-                     )}
-</strong>
-</div>
-<div>
-<span>Status</span>
-<strong>{formatStatus(activeNeed.status)}</strong>
-</div>
-</div>
 </>
            ) : teacherVerified ? (
 <>
