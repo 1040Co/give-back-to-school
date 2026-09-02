@@ -1535,44 +1535,45 @@ h3,
 
 }
 
+.receipt-action {
+ margin-top: 24px;
+ padding: 22px;
+ border: 1px solid #cfe3d4;
+ border-radius: 18px;
+ background: #f3faf5;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 24px;
+}
 .receipt-action h3 {
-
-  margin: 4px 0 8px;
-
+ margin: 4px 0 8px;
 }
-
 .receipt-action p {
-
-  margin: 0;
-
-  max-width: 620px;
-
+ margin: 0;
+ max-width: 620px;
 }
-
+.receipt-action .eyebrow {
+ color: #456b50;
+}
 .receipt-action .btn {
-
-  flex-shrink: 0;
-
+ flex-shrink: 0;
+ background: #456b50;
+ border-color: #456b50;
+ color: #ffffff;
 }
-
+.receipt-action .btn:hover {
+ background: #3c5d46;
+ border-color: #3c5d46;
+}
 @media (max-width: 650px) {
-
-  .receipt-action {
-
-    flex-direction: column;
-
-    align-items: stretch;
-
-  }
-
-  .receipt-action .btn {
-
-    width: 100%;
-
-    text-align: center;
-
-  }
-
+ .receipt-action {
+   flex-direction: column;
+   align-items: stretch;
+ }
+ .receipt-action .btn {
+   width: 100%;
+   text-align: center;
+ }
 }
- 
   
