@@ -166,15 +166,14 @@ export default function TeacherFulfilmentPage() {
 
       .eq("teacher_profile_id", teacherProfileId);
 
-    if (error) {
-
-      setMessage("We could not confirm receipt. Please try again.");
-
-      setLoading(false);
-
-      return;
-
-    }
+  if (error) {
+ console.error("Confirm receipt error:", error);
+ setMessage(
+   `We could not confirm receipt: ${error.message}`
+ );
+ setLoading(false);
+ return;
+}
 
     router.push("/teacher/dashboard");
 
