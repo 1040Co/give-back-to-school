@@ -35,6 +35,51 @@ export default async function Home({
  .order("approved_at", { ascending: false })
  .limit(3);
 
+ const { data: completedMilestones } = await supabase
+
+  .from("needs")
+
+  .select(
+
+    `
+
+    id,
+
+    title,
+
+    learners_benefiting,
+
+    estimated_value,
+
+    teacher_confirmed_at,
+
+    fulfilment_note,
+
+    fulfilment_photo_path,
+
+    school_id,
+
+    schools (
+
+      school_name,
+
+      municipality,
+
+      province
+
+    )
+
+    `
+
+  )
+
+  .eq("status", "completed")
+
+  .order("completed_at", { ascending: false })
+
+  .limit(3);
+ 
+
   const [
 
     verifiedSchoolsResult,
@@ -221,6 +266,72 @@ export default async function Home({
   })
 
 )}
+</div>
+</section>
+
+ <section className="section section-soft">
+<div className="section-heading">
+<div>
+<div className="eyebrow">COMPLETED MILESTONES</div>
+<h2>Classroom needs that reached their destination</h2>
+</div>
+</div>
+<div className="needs-grid">
+
+    {!completedMilestones || completedMilestones.length === 0 ? (
+<div className="card">
+<h3>No completed classroom needs yet</h3>
+<p className="muted">
+
+          Completed requests will appear here after teachers confirm receipt.
+</p>
+</div>
+
+    ) : (
+
+      completedMilestones.map((need: any) => {
+
+        const school = Array.isArray(need.schools)
+
+          ? need.schools[0]
+
+          : need.schools;
+
+        return (
+<article className="need-card" key={need.id}>
+<div className="need-topline">
+<span className="status-badge">Completed</span>
+<span>{need.learners_benefiting || 0} learners</span>
+</div>
+<h3>{need.title}</h3>
+<p className="school-name">
+
+              {school?.school_name || "Verified school"}
+</p>
+<p className="muted">
+
+              {[school?.municipality, school?.province]
+
+                .filter(Boolean)
+
+                .join(", ")}
+</p>
+
+            {need.fulfilment_note ? (
+<p className="muted">{need.fulfilment_note}</p>
+
+            ) : null}
+<Link className="text-link" href={`/needs/${need.id}`}>
+
+              See completed need →
+</Link>
+</article>
+
+        );
+
+      })
+
+    )}
 </div>
 </section>
 <section className="section">
