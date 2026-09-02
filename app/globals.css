@@ -264,6 +264,15 @@ a.text-link {
   color: var(--gbts-charcoal);
   font-weight: 700;
 }
+{fulfilmentPhotoUrl ? (
+<div className="milestone-photo-wrap">
+<img
+     src={fulfilmentPhotoUrl}
+     alt={`Completed classroom need: ${need.title}`}
+     className="milestone-photo"
+   />
+</div>
+) : null}
 
 /* =========================================================
    FORMS
