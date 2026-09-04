@@ -3,15 +3,11 @@
 import Link from "next/link";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-
 
 import { createClient } from "../../../lib/supabase/client";
 
 export default function GiverConfirmPage() {
 
-  const searchParams = useSearchParams();
-   
   const supabase = createClient();
 
   const [status, setStatus] = useState("Verifying your email...");
@@ -42,13 +38,15 @@ export default function GiverConfirmPage() {
 
 }
 
+const urlParams = new URLSearchParams(window.location.search);
+
 const savedNeedId =
 
-  searchParams.get("need_id") ||
+  urlParams.get("need_id") ||
 
   String(user.user_metadata?.need_id || "");
 
-const anonymousParam = searchParams.get("anonymous");
+const anonymousParam = urlParams.get("anonymous");
 
 const anonymous =
 
@@ -60,7 +58,7 @@ const anonymous =
 
 const fullName =
 
-  searchParams.get("full_name") ||
+  urlParams.get("full_name") ||
 
   String(user.user_metadata?.full_name || "");
  
@@ -119,7 +117,7 @@ setStatus("Commitment confirmed.");
 
     checkUser();
 
- }, [searchParams]);
+ }, []);
 
   return (
 <main className="page">
