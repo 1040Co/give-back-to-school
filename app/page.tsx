@@ -294,8 +294,18 @@ export default async function Home({
         const school = Array.isArray(need.schools)
 
           ? need.schools[0]
-
           : need.schools;
+
+       const commitment = Array.isArray(need.commitments)
+ ? need.commitments.find((item: any) =>
+     ["committed", "fulfilled", "completed"].includes(item.status)
+   ) || need.commitments[0]
+ : need.commitments;
+
+       const giverName = commitment?.is_anonymous
+ ? "Anonymous giver"
+ : commitment?.public_display_name || "Giver";
+       
        let fulfilmentPhotoUrl = "";
 if (need.fulfilment_photo_path) {
  const { data } = supabase.storage
