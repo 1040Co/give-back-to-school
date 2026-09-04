@@ -337,6 +337,11 @@ if (need.fulfilment_photo_path) {
 <p className="muted">{need.fulfilment_note}</p>
 
             ) : null}
+
+ <div className="milestone-giver">
+<span className="muted">Provided by</span>
+<strong>{giverName}</strong>
+</div>
 <Link className="text-link" href={`/needs/${need.id}`}>
 
               See completed need →
