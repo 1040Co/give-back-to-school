@@ -54,24 +54,36 @@ export default function GiverCommitPage() {
 
     }
 
-    const { error } = await supabase.auth.signInWithOtp({
-
-      email,
-
-      options: {
-  shouldCreateUser: true,
-
-  emailRedirectTo:
-    `${window.location.origin}/needs/${needId}/commit/confirm`,
-
-  data: {
-    full_name: fullName,
-    anonymous,
-    need_id: needId,
+   const prepareResponse = await fetch("/api/giver/prepare", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
   },
-},
+  body: JSON.stringify({
+    email,
+    fullName,
+    anonymous,
+    needId,
+  }),
+});
 
-    });
+const prepareResult = await prepareResponse.json();
+
+if (!prepareResponse.ok) {
+  setMessage(
+    prepareResult.error ||
+      "We couldn’t prepare your verification. Please try again."
+  );
+  setLoading(false);
+  return;
+}
+
+const { error } = await supabase.auth.signInWithOtp({
+  email,
+  options: {
+    shouldCreateUser: false,
+  },
+});
 
     if (error) {
 
