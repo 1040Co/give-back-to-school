@@ -23,6 +23,7 @@ export default async function Home({
    title,
    learners_benefiting,
    estimated_value,
+   status,
    school_id,
    schools (
      school_name,
@@ -31,7 +32,7 @@ export default async function Home({
    )
    `
  )
- .eq("status", "approved")
+.in("status", ["approved", "committed"])
  .order("approved_at", { ascending: false })
  .limit(3);
 
@@ -212,10 +213,10 @@ export default async function Home({
 
 {!approvedNeeds || approvedNeeds.length === 0 ? (
 <div className="card">
-<h3>No approved classroom needs yet</h3>
+<h3>No classroom needs yet</h3>
 <p className="muted">
 
-      New verified classroom requests will appear here after GBTS approval.
+      Verified classroom requests will appear here after GBTS approval.
 </p>
 </div>
 
@@ -232,7 +233,11 @@ export default async function Home({
     return (
 <article className="need-card" key={need.id}>
 <div className="need-topline">
-<span className="status-badge">Open need</span>
+<span className="status-badge">
+  {need.status === "committed"
+    ? "Commitment in progress"
+    : "Open need"}
+</span>
 <span>
 
             ₱{Number(need.estimated_value || 0).toLocaleString()}
