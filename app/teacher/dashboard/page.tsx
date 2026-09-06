@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "../../../lib/supabase/server";
+import MessagePanel from "./MessagePanel";
 function formatStatus(status: string) {
  return status
    .replaceAll("_", " ")
@@ -59,8 +60,18 @@ export default async function TeacherDashboardPage() {
  .maybeSingle();
  
  let school = null;
- let activeNeed = null;
- let completedNeeds = 0;
+let activeNeed = null;
+let completedNeeds = 0;
+
+let conversationId = "";
+
+let conversationMessages: {
+  id: string;
+  sender_id: string;
+  message_text: string;
+  created_at: string;
+}[] = [];
+ 
  if (teacherProfile?.school_id) {
    const { data } = await supabase
      .from("schools")
@@ -100,6 +111,40 @@ export default async function TeacherDashboardPage() {
      .eq("teacher_profile_id", teacherProfile.id)
      .eq("status", "completed");
    completedNeeds = count ?? 0;
+if (
+  activeNeed &&
+  ["committed", "fulfilled"].includes(activeNeed.status)
+) {
+  const { data: commitment } = await supabase
+    .from("commitments")
+    .select("id")
+    .eq("need_id", activeNeed.id)
+    .order("committed_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (commitment) {
+    const { data: conversation } = await supabase
+      .from("conversations")
+      .select("id")
+      .eq("commitment_id", commitment.id)
+      .maybeSingle();
+
+    if (conversation) {
+      conversationId = conversation.id;
+
+      const { data: messages } = await supabase
+        .from("messages")
+        .select("id, sender_id, message_text, created_at")
+        .eq("conversation_id", conversation.id)
+        .order("created_at", { ascending: true });
+
+      conversationMessages = messages ?? [];
+    }
+  }
+}
+
+  
  }
  const teacherVerified =
    teacherProfile?.verification_status === "verified";
@@ -458,6 +503,17 @@ export default async function TeacherDashboardPage() {
 </>
            )}
 </section>
+
+{activeNeed &&
+conversationId &&
+["committed", "fulfilled"].includes(activeNeed.status) ? (
+  <MessagePanel
+    conversationId={conversationId}
+    currentUserId={user.id}
+    messages={conversationMessages}
+  />
+) : null}
+
 </>
      )}
 </main>
