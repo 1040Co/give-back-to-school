@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 
 import { createClient } from "../../../lib/supabase/client";
 
+import SignOutButton from "../SignOutButton";
+
 export default function GiverConfirmPage() {
 
   const supabase = createClient();
@@ -163,6 +165,10 @@ setStatus("Commitment confirmed.");
 </Link>
 
       )}
+
+  <div style={{ marginTop: "1rem" }}>
+  <SignOutButton />
+</div>
 </main>
 
   );
