@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "../../../lib/supabase/server";
 import MessagePanel from "./MessagePanel";
+import SignOutButton from "./SignOutButton";
 function formatStatus(status: string) {
  return status
    .replaceAll("_", " ")
@@ -183,9 +184,13 @@ if (
            from one place.
 </p>
 </div>
-<div className="teacher-account-chip">
-<span>Signed in as</span>
-<strong>{user.email}</strong>
+<div>
+  <div className="teacher-account-chip">
+    <span>Signed in as</span>
+    <strong>{user.email}</strong>
+  </div>
+
+  <SignOutButton />
 </div>
 </section>
 <section className="impact-grid teacher-metrics">
