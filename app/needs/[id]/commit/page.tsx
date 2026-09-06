@@ -59,20 +59,17 @@ export default function GiverCommitPage() {
       email,
 
       options: {
+  shouldCreateUser: true,
 
-        shouldCreateUser: true,
+  emailRedirectTo:
+    `${window.location.origin}/needs/${needId}/commit/confirm`,
 
-        data: {
-
-          full_name: fullName,
-
-          anonymous,
-
-          need_id: needId,
-
-        },
-
-      },
+  data: {
+    full_name: fullName,
+    anonymous,
+    need_id: needId,
+  },
+},
 
     });
 
