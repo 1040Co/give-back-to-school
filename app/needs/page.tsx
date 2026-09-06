@@ -52,7 +52,7 @@ export default async function Page() {
 
     )
 
-    .eq("status", "approved")
+    .in("status", ["approved", "committed"])
 
     .order("approved_at", { ascending: false });
 
@@ -88,7 +88,11 @@ export default async function Page() {
             return (
 <article className="need-card" key={need.id}>
 <div className="need-topline">
-<span className="status-badge">Open need</span>
+<span className="status-badge">
+  {need.status === "committed"
+    ? "Commitment in progress"
+    : "Open need"}
+</span>
 </div>
 <h2>{need.title}</h2>
 <p className="school-name">
