@@ -18,6 +18,10 @@ export default async function NeedDetailPage({
 
   const supabase = await createClient();
 
+  const {
+  data: { user },
+} = await supabase.auth.getUser();
+
   const { data: need } = await supabase
 
     .from("needs")
@@ -109,6 +113,20 @@ export default async function NeedDetailPage({
     notFound();
 
   }
+
+  let isCommittedGiver = false;
+
+if (user && need.status === "committed") {
+  const { data: commitment } = await supabase
+    .from("commitments")
+    .select("giver_id")
+    .eq("need_id", need.id)
+    .eq("status", "active")
+    .maybeSingle();
+
+  isCommittedGiver =
+    commitment?.giver_id === user.id;
+}
 
   const school = Array.isArray(need.schools)
 
@@ -465,12 +483,25 @@ if (need.fulfilment_photo_path) {
 </div>
  ) : ["committed", "fulfilled"].includes(need.status) ? (
 <div>
-<div className="eyebrow">Commitment in progress</div>
-<h2>A giver has committed to this classroom need.</h2>
-<p>
-       This request is currently being fulfilled and is no longer available
-       for another commitment.
-</p>
+  <div className="eyebrow">Commitment in progress</div>
+
+  <h2>
+    {isCommittedGiver
+      ? "You have committed to this classroom need."
+      : "A giver has committed to this classroom need."}
+  </h2>
+
+  <p>
+    {isCommittedGiver
+      ? "Your commitment is active. Continue through your giver dashboard to message the teacher and follow fulfilment."
+      : "This request is currently being fulfilled and is no longer available for another commitment."}
+  </p>
+
+  {isCommittedGiver ? (
+    <Link className="btn" href="/giver">
+      Open my giver dashboard
+    </Link>
+  ) : null}
 </div>
  ) : (
 <>
