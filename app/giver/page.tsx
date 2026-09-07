@@ -15,24 +15,27 @@ export default async function GiverDashboardPage() {
     redirect("/needs");
   }
 
-  const { data: commitment } = await supabase
-    .from("commitments")
-    .select(
-      `
+ const { data: commitment } = await supabase
+  .from("commitments")
+  .select(
+    `
+    id,
+    need_id,
+    status,
+    committed_at,
+    needs (
       id,
-      need_id,
+      title,
       status,
-      committed_at,
-      needs (
-        id,
-        title,
-        status,
-        learners_benefiting,
-        estimated_value
+      learners_benefiting,
+      estimated_value,
+      teacher_profiles (
+        user_id
       )
-      `
     )
-    .eq("giver_id", user.id)
+    `
+  )
+     .eq("giver_id", user.id)
     .in("status", ["active", "fulfilled"])
     .order("committed_at", { ascending: false })
     .limit(1)
@@ -70,7 +73,19 @@ export default async function GiverDashboardPage() {
   const need = Array.isArray(commitment?.needs)
     ? commitment?.needs[0]
     : commitment?.needs;
-
+const teacherProfile = Array.isArray(need?.teacher_profiles)
+  ? need?.teacher_profiles[0]
+  : need?.teacher_profiles;
+let teacherName = "Teacher";
+if (teacherProfile?.user_id) {
+  const { data: teacherAccount } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", teacherProfile.user_id)
+    .maybeSingle();
+  teacherName = teacherAccount?.full_name || "Teacher";
+}
+ 
   return (
     <main className="page">
       <section className="teacher-welcome">
