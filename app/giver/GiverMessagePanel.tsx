@@ -13,13 +13,15 @@ type Message = {
 };
 
 export default function GiverMessagePanel({
-  conversationId,
-  currentUserId,
-  messages,
+ conversationId,
+ currentUserId,
+ messages,
+ teacherName,
 }: {
-  conversationId: string;
-  currentUserId: string;
-  messages: Message[];
+ conversationId: string;
+ currentUserId: string;
+ messages: Message[];
+ teacherName: string;
 }) {
   const supabase = createClient();
   const router = useRouter();
@@ -71,7 +73,7 @@ export default function GiverMessagePanel({
     <section className="card">
       <div className="eyebrow">Private GBTS communication</div>
 
-      <h2>Messages with teacher</h2>
+     <h2>Messages with {teacherName}</h2>
 
       <p className="muted">
         Keep all communication about this classroom request inside GBTS.
@@ -94,11 +96,11 @@ export default function GiverMessagePanel({
                   : "message-bubble"
               }
             >
-              <strong>
-                {message.sender_id === currentUserId
-                  ? "You"
-                  : "Teacher"}
-              </strong>
+            <strong>
+ {message.sender_id === currentUserId
+   ? "You"
+   : teacherName}
+</strong>
 
               <p>{message.message_text}</p>
 
