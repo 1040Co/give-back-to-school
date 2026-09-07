@@ -159,6 +159,9 @@ export default async function Home({
 
               I’m a teacher
 </Link>
+<Link className="btn secondary" href="/giver/sign-in">
+ Giver sign in
+</Link>
 </div>
 </div>
 <div className="hero-highlight">
