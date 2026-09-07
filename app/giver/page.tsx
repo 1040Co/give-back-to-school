@@ -153,10 +153,11 @@ if (teacherProfile?.user_id) {
 
           {conversationId ? (
             <GiverMessagePanel
-              conversationId={conversationId}
-              currentUserId={user.id}
-              messages={messages}
-            />
+ conversationId={conversationId}
+ currentUserId={user.id}
+ messages={messages}
+ teacherName={teacherName}
+/>
           ) : null}
         </>
       )}
