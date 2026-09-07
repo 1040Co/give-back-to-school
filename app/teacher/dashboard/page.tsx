@@ -72,6 +72,8 @@ let conversationMessages: {
   message_text: string;
   created_at: string;
 }[] = [];
+
+ let giverName = "Giver";
  
  if (teacherProfile?.school_id) {
    const { data } = await supabase
@@ -118,13 +120,16 @@ if (
 ) {
   const { data: commitment } = await supabase
     .from("commitments")
-    .select("id")
+    .select("id, public_display_name, is_anonymous, giver_id")
     .eq("need_id", activeNeed.id)
     .order("committed_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
   if (commitment) {
+   giverName =
+ commitment.public_display_name ||
+ (commitment.is_anonymous ? "Anonymous giver" : "Giver");
     const { data: conversation } = await supabase
       .from("conversations")
       .select("id")
@@ -513,10 +518,11 @@ if (
 conversationId &&
 ["committed", "fulfilled"].includes(activeNeed.status) ? (
   <MessagePanel
-    conversationId={conversationId}
-    currentUserId={user.id}
-    messages={conversationMessages}
-  />
+ conversationId={conversationId}
+ currentUserId={user.id}
+ messages={conversationMessages}
+ giverName={giverName}
+/>
 ) : null}
 
 </>
