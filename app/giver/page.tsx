@@ -202,7 +202,26 @@ if (teacherProfile?.user_id) {
 </form>
 </div>
 
+) : need?.status === "fulfilled" ? (
+<div className="giver-fulfilment-card">
+<div className="eyebrow">Goods provided</div>
+<h3>Waiting for teacher confirmation</h3>
+<p className="muted">
+
+      You marked the requested goods as provided. The teacher now needs to
+
+      confirm that the classroom received them.
+</p>
+<p className="muted">
+
+      You can continue communicating with the teacher below while confirmation
+
+      is pending.
+</p>
+</div>
+
 ) : null}
+ 
  
   </section>
 
