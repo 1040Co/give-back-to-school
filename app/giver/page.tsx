@@ -150,50 +150,61 @@ if (teacherProfile?.user_id) {
               View classroom need
             </Link>
 {need?.status === "committed" ? (
+<div className="giver-fulfilment-card">
+<div>
+<div className="eyebrow">Fulfilment</div>
+<h3>Have you provided the requested goods?</h3>
+<p className="muted">
+
+        Mark this only after the items have been delivered or handed over.
+
+        The teacher will then be asked to confirm receipt.
+</p>
+</div>
 <form
 
-    action={async () => {
+      action={async () => {
 
-      "use server";
+        "use server";
 
-      const supabase = await createClient();
+        const supabase = await createClient();
 
-      const {
+        const {
 
-        data: { user },
+          data: { user },
 
-      } = await supabase.auth.getUser();
+        } = await supabase.auth.getUser();
 
-      if (!user) {
+        if (!user) {
 
-        return;
+          return;
 
-      }
+        }
 
-      await supabase.from("fulfilment_events").insert({
+        await supabase.from("fulfilment_events").insert({
 
-        commitment_id: commitment.id,
+          commitment_id: commitment.id,
 
-        actor_id: user.id,
+          actor_id: user.id,
 
-        event_type: "giver_marked_provided",
+          event_type: "giver_marked_provided",
 
-        note: "Giver marked the requested goods as provided.",
+          note: "Giver marked the requested goods as provided.",
 
-      });
+        });
 
-    }}
+      }}
 >
 <button className="btn" type="submit">
 
-      Mark goods as provided
+        Mark goods as provided
 </button>
 </form>
+</div>
 
 ) : null}
  
-            
-          </section>
+  </section>
 
           {conversationId ? (
             <GiverMessagePanel
