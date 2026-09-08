@@ -31,6 +31,11 @@ export default async function Home({
      province
    )
    `
+  commitments (
+ status,
+ is_anonymous,
+ public_display_name
+)
  )
 .in("status", ["approved", "committed"])
  .order("approved_at", { ascending: false })
