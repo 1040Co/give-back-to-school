@@ -149,6 +149,50 @@ if (teacherProfile?.user_id) {
             >
               View classroom need
             </Link>
+{need?.status === "committed" ? (
+<form
+
+    action={async () => {
+
+      "use server";
+
+      const supabase = await createClient();
+
+      const {
+
+        data: { user },
+
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+
+        return;
+
+      }
+
+      await supabase.from("fulfilment_events").insert({
+
+        commitment_id: commitment.id,
+
+        actor_id: user.id,
+
+        event_type: "giver_marked_provided",
+
+        note: "Giver marked the requested goods as provided.",
+
+      });
+
+    }}
+>
+<button className="btn" type="submit">
+
+      Mark goods as provided
+</button>
+</form>
+
+) : null}
+ 
+            
           </section>
 
           {conversationId ? (
