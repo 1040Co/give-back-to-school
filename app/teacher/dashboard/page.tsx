@@ -64,6 +64,8 @@ export default async function TeacherDashboardPage() {
 let activeNeed = null;
 let completedNeeds = 0;
 
+let pastNeeds: any[] = [];
+
 let conversationId = "";
 
 let conversationMessages: {
@@ -114,6 +116,23 @@ let conversationMessages: {
      .eq("teacher_profile_id", teacherProfile.id)
      .eq("status", "completed");
    completedNeeds = count ?? 0;
+  const { data: pastNeedRows } = await supabase
+ .from("needs")
+ .select(
+   `
+   id,
+   title,
+   learners_benefiting,
+   estimated_value,
+   status,
+   completed_at,
+   fulfilment_note
+   `
+ )
+ .eq("teacher_profile_id", teacherProfile.id)
+ .eq("status", "completed")
+ .order("completed_at", { ascending: false });
+pastNeeds = pastNeedRows ?? [];
 if (
   activeNeed &&
   ["committed", "fulfilled"].includes(activeNeed.status)
@@ -513,7 +532,50 @@ if (
 </>
            )}
 </section>
-
+<section className="section">
+<div className="section-heading">
+<div>
+<div className="eyebrow">Past requests</div>
+<h2>Completed classroom requests</h2>
+</div>
+</div>
+ {pastNeeds.length === 0 ? (
+<div className="card">
+<p className="muted">
+       You do not have any completed classroom requests yet.
+</p>
+</div>
+ ) : (
+<div className="needs-grid">
+     {pastNeeds.map((need: any) => (
+<article className="need-card" key={need.id}>
+<div className="need-topline">
+<span className="status-badge">Completed</span>
+</div>
+<h3>{need.title}</h3>
+<div className="need-meta">
+<span>
+<strong>{need.learners_benefiting || 0}</strong>
+<small>Learners</small>
+</span>
+<span>
+<strong>
+               ₱{Number(need.estimated_value || 0).toLocaleString("en-PH")}
+</strong>
+<small>Estimated value</small>
+</span>
+</div>
+         {need.fulfilment_note ? (
+<p className="muted">{need.fulfilment_note}</p>
+         ) : null}
+<Link className="text-link" href={`/needs/${need.id}`}>
+           View completed request →
+</Link>
+</article>
+     ))}
+</div>
+ )}
+</section>
 {activeNeed &&
 conversationId &&
 ["committed", "fulfilled"].includes(activeNeed.status) ? (
