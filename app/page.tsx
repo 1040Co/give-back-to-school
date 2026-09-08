@@ -29,13 +29,13 @@ export default async function Home({
      school_name,
      municipality,
      province
-   )
-   `
+   ),
   commitments (
  status,
  is_anonymous,
  public_display_name
 )
+`
  )
 .in("status", ["approved", "committed"])
  .order("approved_at", { ascending: false })
