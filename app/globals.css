@@ -1696,5 +1696,32 @@ h3,
 .message-form .btn {
   align-self: flex-start;
 }
+
+.giver-fulfilment-card {
+
+  margin-top: 24px;
+
+  padding: 20px;
+
+  border: 1px solid #e4e4e4;
+
+  border-radius: 14px;
+
+  background: #fafafa;
+
+}
+
+.giver-fulfilment-card h3 {
+
+  margin: 6px 0 8px;
+
+}
+
+.giver-fulfilment-card form {
+
+  margin-top: 16px;
+
+}
+ 
  
   
