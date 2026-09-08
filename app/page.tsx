@@ -65,15 +65,16 @@ export default async function Home({
 
     school_id,
 
-    schools (
-
-      school_name,
-
-      municipality,
-
-      province
-
-    )
+ schools (
+ school_name,
+ municipality,
+ province
+),
+commitments (
+ status,
+ is_anonymous,
+ public_display_name
+)
 
     `
 
