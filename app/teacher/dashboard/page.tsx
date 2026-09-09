@@ -32,6 +32,14 @@ export default async function TeacherDashboardPage() {
  if (!user) {
    redirect("/teacher/sign-in");
  }
+const { data: teacherProfileGuard } = await supabase
+ .from("teacher_profiles")
+ .select("id")
+ .eq("user_id", user.id)
+ .maybeSingle();
+if (!teacherProfileGuard) {
+ redirect("/teacher");
+}
  const { data: accountProfile } = await supabase
    .from("profiles")
    .select("full_name")
