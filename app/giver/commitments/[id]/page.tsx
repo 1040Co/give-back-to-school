@@ -1,9 +1,6 @@
 import Link from "next/link";
-
 import { notFound, redirect } from "next/navigation";
-
-import { createClient } from "../../../lib/supabase/server";
-
+import { createClient } from "../../../../lib/supabase/server";
 export default async function CompletedCommitmentPage({
 
   params,
