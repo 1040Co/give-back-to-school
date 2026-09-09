@@ -31,41 +31,23 @@ export default async function NeedDetailPage({
       `
 
       id,
-
       title,
-
       description,
-
       learners_benefiting,
-
       estimated_value,
-
       status,
-
       photo_path,
-
      teacher_confirmed_at,
-
       fulfilment_note,
-
     fulfilment_photo_path,
-
     completed_at,
- 
-      teacher_profile_id,
-
+       teacher_profile_id,
       school_id,
-
       schools (
-
         school_name,
-
         municipality,
-
         province,
-
         region
-
       ),
 
       teacher_profiles (
@@ -139,10 +121,9 @@ if (user && need.status === "committed") {
     : need.teacher_profiles;
 
   const isOwningTeacher =
- Boolean(user) &&
- teacherProfile?.user_id === user.id;
+ teacherProfile?.user_id === user?.id;
+  
   let teacherName = "Verified teacher";
-
   if (teacherProfile?.user_id) {
 
     const { data: profile } = await supabase
