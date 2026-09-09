@@ -14,8 +14,15 @@ export default async function GiverDashboardPage() {
   if (!user) {
     redirect("/needs");
   }
-
- const { data: commitment } = await supabase
+  const { data: teacherProfile } = await supabase
+  .from("teacher_profiles")
+  .select("id")
+  .eq("user_id", user.id)
+  .maybeSingle();
+if (teacherProfile) {
+  redirect("/teacher/dashboard");
+}
+  const { data: commitment } = await supabase
   .from("commitments")
   .select(
     `
