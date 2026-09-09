@@ -96,21 +96,21 @@ export default async function NeedDetailPage({
 
   }
 
-  let isCommittedGiver = false;
-
-if (user && need.status === "committed") {
+ let isCommittedGiver = false;
+if (
+  user &&
+  ["committed", "fulfilled", "completed"].includes(need.status)
+) {
   const { data: commitment } = await supabase
     .from("commitments")
     .select("giver_id")
     .eq("need_id", need.id)
-    .eq("status", "active")
+    .in("status", ["active", "completed"])
     .maybeSingle();
-
   isCommittedGiver =
     commitment?.giver_id === user.id;
 }
-
-  const school = Array.isArray(need.schools)
+   const school = Array.isArray(need.schools)
 
     ? need.schools[0]
 
