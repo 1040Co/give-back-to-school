@@ -9,6 +9,17 @@ import LoadingCursor from "../../LoadingCursor";
 export default function GiverSignInPage() {
   const supabase = createClient();
   const router = useRouter();
+ useEffect(() => {
+ async function checkExistingSession() {
+   const {
+     data: { user },
+   } = await supabase.auth.getUser();
+   if (user) {
+     router.replace("/giver");
+   }
+ }
+ checkExistingSession();
+}, [router, supabase]);
 
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
