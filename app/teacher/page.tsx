@@ -1,8 +1,16 @@
 import Link from "next/link";
-
-export default function TeacherPage() {
-
+import { redirect } from "next/navigation";
+import { createClient } from "../../lib/supabase/server";
+export default async function TeacherPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) {
+    redirect("/teacher/dashboard");
+  }
   return (
+ 
 <main className="page">
 <div className="eyebrow">Teacher portal</div>
 <h1>Support your classroom with specific school needs</h1>
