@@ -14,14 +14,17 @@ export default function GiverSignInPage() {
    const {
      data: { user },
    } = await supabase.auth.getUser();
-   if (user) {
-     router.replace("/giver");
-   }
+ if (user) {
+ router.replace("/giver");
+ return;
+}
+setCheckingSession(false);
  }
  checkExistingSession();
 }, [router, supabase]);
 
-  const [email, setEmail] = useState("");
+ const [checkingSession, setCheckingSession] = useState(true); 
+ const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [codeSent, setCodeSent] = useState(false);
   const [message, setMessage] = useState("");
@@ -76,7 +79,17 @@ export default function GiverSignInPage() {
     router.push("/giver");
     router.refresh();
   }
-
+if (checkingSession) {
+ return (
+<main className="page">
+<div className="eyebrow">Giver account</div>
+<h1>Checking your session...</h1>
+<p className="muted">
+       Please wait while we open your giver dashboard.
+</p>
+</main>
+ );
+}
   return (
     <main className="page">
       <LoadingCursor loading={loading} />
