@@ -158,7 +158,7 @@ export default function TeacherFulfilmentPage() {
 
         fulfilment_photo_path: fulfilmentPhotoPath,
 
-        status: "completed",
+        
 
       })
 
@@ -174,7 +174,61 @@ export default function TeacherFulfilmentPage() {
  setLoading(false);
  return;
 }
+    const {
 
+  data: { user },
+
+} = await supabase.auth.getUser();
+
+if (!user) {
+
+  setMessage("Your session has expired. Please sign in again.");
+
+  setLoading(false);
+
+  return;
+
+}
+
+const { data: commitment, error: commitmentError } = await supabase
+  .from("commitments")
+  .select("id")
+  .eq("need_id", needId)
+  .eq("status", "active")
+  .maybeSingle();
+if (commitmentError || !commitment) {
+  setMessage(
+    "We could not find the active giver commitment for this request."
+  );
+  setLoading(false);
+  return;
+}
+const { data: existingTeacherEvent } = await supabase
+ .from("fulfilment_events")
+ .select("id")
+ .eq("commitment_id", commitment.id)
+ .eq("event_type", "teacher_confirmed_received")
+ .maybeSingle();
+if (existingTeacherEvent) {
+ router.push("/teacher/dashboard");
+ return;
+}  
+    const { error: eventError } = await supabase
+  .from("fulfilment_events")
+  .insert({
+    commitment_id: commitment.id,
+    actor_id: user.id,
+    event_type: "teacher_confirmed_received",
+    note: note.trim() || "Teacher confirmed receipt of the requested goods.",
+  });
+if (eventError) {
+  console.error("Teacher confirmation event error:", eventError);
+  setMessage(
+    `We could not complete the request: ${eventError.message}`
+  );
+  setLoading(false);
+  return;
+}
     router.push("/teacher/dashboard");
 
   }
