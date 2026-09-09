@@ -475,10 +475,19 @@ if (need.fulfilment_photo_path) {
  {need.status === "completed" ? (
 <div>
 <div className="eyebrow">Completed classroom need</div>
-<h2>This classroom received the requested goods.</h2>
+<h2>
+ {isOwningTeacher
+   ? "Your classroom received the requested goods."
+   : isCommittedGiver
+     ? "You provided the goods for this classroom need."
+     : "This classroom received the requested goods."}
+</h2>
 <p>
-       Receipt was confirmed by the verified teacher. This request is now
-       complete and is no longer accepting commitments.
+ {isOwningTeacher
+   ? "You confirmed receipt of the requested goods. This classroom request is now complete."
+   : isCommittedGiver
+     ? "The teacher confirmed receipt of the goods you provided. This classroom request is now complete."
+     : "Receipt was confirmed by the verified teacher. This request is now complete and is no longer accepting commitments."}
 </p>
 </div>
  ) : ["committed", "fulfilled"].includes(need.status) ? (
