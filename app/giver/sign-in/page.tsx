@@ -3,6 +3,8 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "../../../lib/supabase/client";
+import LoadingCursor from "../../LoadingCursor";
+ 
 
 export default function GiverSignInPage() {
   const supabase = createClient();
@@ -66,6 +68,7 @@ export default function GiverSignInPage() {
 
   return (
     <main className="page">
+      <LoadingCursor loading={loading} />
       <div className="eyebrow">Giver sign in</div>
       <h1>Return to your classroom commitment</h1>
 
