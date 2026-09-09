@@ -407,13 +407,16 @@ if (teacherProfile?.user_id) {
 
             ) : null}
 <Link
-
               className="text-link"
-
               href={`/needs/${commitment.need_id}`}
 >
-
               View completed classroom need →
+</Link>
+<Link
+ className="text-link"
+ href={`/giver/commitments/${commitment.id}`}
+>
+ View conversation →
 </Link>
 </article>
 
