@@ -6,9 +6,16 @@ export default async function TeacherPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (user) {
-    redirect("/teacher/dashboard");
-  }
+ if (user) {
+ const { data: teacherProfile } = await supabase
+   .from("teacher_profiles")
+   .select("id")
+   .eq("user_id", user.id)
+   .maybeSingle();
+ if (teacherProfile) {
+   redirect("/teacher/dashboard");
+ }
+}
   return (
  
 <main className="page">
