@@ -43,10 +43,31 @@ if (signedInTeacherProfile) {
     `
   )
      .eq("giver_id", user.id)
-    .in("status", ["active", "fulfilled"])
+    .eq("status", "active")
     .order("committed_at", { ascending: false })
     .limit(1)
     .maybeSingle();
+  
+  const { data: activeCommitments } = await supabase
+ .from("commitments")
+ .select(
+   `
+   id,
+   need_id,
+   status,
+   committed_at,
+   needs (
+     id,
+     title,
+     status,
+     learners_benefiting,
+     estimated_value
+   )
+   `
+ )
+ .eq("giver_id", user.id)
+ .eq("status", "active")
+ .order("committed_at", { ascending: false });
 
   const { data: completedCommitments } = await supabase
   .from("commitments")
@@ -129,6 +150,63 @@ if (teacherProfile?.user_id) {
 
         <SignOutButton />
       </section>
+
+      <section className="section">
+<div className="section-heading">
+<div>
+<div className="eyebrow">Active commitments</div>
+<h2>Your current classroom support</h2>
+</div>
+</div>
+ {!activeCommitments || activeCommitments.length === 0 ? (
+<div className="card">
+<p className="muted">
+       You do not have any active classroom commitments right now.
+</p>
+</div>
+ ) : (
+<div className="needs-grid">
+     {activeCommitments.map((item: any) => {
+       const need = Array.isArray(item.needs)
+         ? item.needs[0]
+         : item.needs;
+       return (
+<article className="need-card" key={item.id}>
+<div className="need-topline">
+<span className="status-badge">
+               {need?.status === "fulfilled"
+                 ? "Waiting for teacher confirmation"
+                 : "Active"}
+</span>
+</div>
+<h3>{need?.title || "Classroom need"}</h3>
+<div className="need-meta">
+<span>
+<strong>{need?.learners_benefiting || 0}</strong>
+<small>Learners</small>
+</span>
+<span>
+<strong>
+                 ₱{Number(
+                   need?.estimated_value || 0
+                 ).toLocaleString("en-PH")}
+</strong>
+<small>Estimated value</small>
+</span>
+</div>
+<Link
+             className="text-link"
+             href={`/needs/${item.need_id}`}
+>
+             View classroom need →
+</Link>
+</article>
+       );
+     })}
+</div>
+ )}
+</section>
+      
 
       {!commitment ? (
         <section className="card">
