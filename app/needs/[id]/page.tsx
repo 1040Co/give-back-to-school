@@ -135,11 +135,12 @@ if (user && need.status === "committed") {
     : need.schools;
 
   const teacherProfile = Array.isArray(need.teacher_profiles)
-
     ? need.teacher_profiles[0]
-
     : need.teacher_profiles;
 
+  const isOwningTeacher =
+ Boolean(user) &&
+ teacherProfile?.user_id === user.id;
   let teacherName = "Verified teacher";
 
   if (teacherProfile?.user_id) {
