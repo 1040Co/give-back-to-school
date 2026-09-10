@@ -73,140 +73,231 @@ export default async function AdminNeedsPage() {
     .order("submitted_at", { ascending: true });
 
   async function approveNeed(formData: FormData) {
+
     "use server";
+
     const needId = String(formData.get("needId") || "");
+
     const supabase = await createClient();
+
     const {
+
       data: { user },
+
     } = await supabase.auth.getUser();
+
     if (!user) {
+
       redirect("/teacher/sign-in");
+
     }
+
     const { data: profile } = await supabase
+
       .from("profiles")
+
       .select("role")
+
       .eq("id", user.id)
+
       .maybeSingle();
+
     if (!profile || profile.role !== "admin") {
+
       throw new Error("Unauthorized");
+
     }
+
     const { error } = await supabase
+
       .from("needs")
+
       .update({
+
         status: "approved",
+
         approved_at: new Date().toISOString(),
+
       })
+
       .eq("id", needId)
+
       .eq("status", "submitted");
+
     if (error) {
+
       throw new Error(error.message);
+
     }
+
     revalidatePath("/admin");
+
     revalidatePath("/admin/needs");
+
     revalidatePath("/needs");
+
     revalidatePath("/");
+
     revalidatePath("/teacher/dashboard");
-  }
-async function requestChanges(formData: FormData) {
-
-  "use server";
-
-  const needId = String(formData.get("needId") || "");
-
-  const correctionMessage = String(
-
-    formData.get("correctionMessage") || ""
-
-  ).trim();
-
-  if (!correctionMessage) {
-
-    throw new Error("Please provide a reason for the requested changes.");
 
   }
 
-  const supabase = await createClient();
+  async function requestChanges(formData: FormData) {
 
-  const {
+    "use server";
 
-    data: { user },
+    const needId = String(formData.get("needId") || "");
 
-  } = await supabase.auth.getUser();
+    const correctionMessage = String(
 
-  if (!user) {
+      formData.get("correctionMessage") || ""
 
-    redirect("/teacher/sign-in");
+    ).trim();
+
+    if (!correctionMessage) {
+
+      throw new Error("Please provide a reason for the requested changes.");
+
+    }
+
+    const supabase = await createClient();
+
+    const {
+
+      data: { user },
+
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+
+      redirect("/teacher/sign-in");
+
+    }
+
+    const { data: profile } = await supabase
+
+      .from("profiles")
+
+      .select("role")
+
+      .eq("id", user.id)
+
+      .maybeSingle();
+
+    if (!profile || profile.role !== "admin") {
+
+      throw new Error("Unauthorized");
+
+    }
+
+    const { error } = await supabase
+
+      .from("needs")
+
+      .update({
+
+        status: "correction_required",
+
+        correction_message: correctionMessage,
+
+      })
+
+      .eq("id", needId)
+
+      .eq("status", "submitted");
+
+    if (error) {
+
+      throw new Error(error.message);
+
+    }
+
+    revalidatePath("/admin");
+
+    revalidatePath("/admin/needs");
+
+    revalidatePath("/teacher/dashboard");
 
   }
 
-  const { data: profile } = await supabase
+  async function rejectNeed(formData: FormData) {
 
-    .from("profiles")
+    "use server";
 
-    .select("role")
+    const needId = String(formData.get("needId") || "");
 
-    .eq("id", user.id)
+    const rejectionMessage = String(
 
-    .maybeSingle();
+      formData.get("rejectionMessage") || ""
 
-  if (!profile || profile.role !== "admin") {
+    ).trim();
 
-    throw new Error("Unauthorized");
+    if (!rejectionMessage) {
+
+      throw new Error("Please provide a reason for rejection.");
+
+    }
+
+    const supabase = await createClient();
+
+    const {
+
+      data: { user },
+
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+
+      redirect("/teacher/sign-in");
+
+    }
+
+    const { data: profile } = await supabase
+
+      .from("profiles")
+
+      .select("role")
+
+      .eq("id", user.id)
+
+      .maybeSingle();
+
+    if (!profile || profile.role !== "admin") {
+
+      throw new Error("Unauthorized");
+
+    }
+
+    const { error } = await supabase
+
+      .from("needs")
+
+      .update({
+
+        status: "rejected",
+
+        correction_message: rejectionMessage,
+
+      })
+
+      .eq("id", needId)
+
+      .eq("status", "submitted");
+
+    if (error) {
+
+      throw new Error(error.message);
+
+    }
+
+    revalidatePath("/admin");
+
+    revalidatePath("/admin/needs");
+
+    revalidatePath("/teacher/dashboard");
 
   }
 
-  const { error } = await supabase
-
-    .from("needs")
-
-    .update({
-
-      status: "correction_required",
-
-      correction_message: correctionMessage,
-
-    })
-
-    .eq("id", needId)
-
-    .eq("status", "submitted");
-
-  if (error) {
-
-    throw new Error(error.message);
-
-  }
-
-  revalidatePath("/admin");
-
-  revalidatePath("/admin/needs");
-
-  revalidatePath("/teacher/dashboard");
-
-}
- const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-  if (!profile || profile.role !== "admin") {
-    throw new Error("Unauthorized");
-  }
-  const { error } = await supabase
-    .from("needs")
-    .update({
-      status: "rejected",
-      correction_message: rejectionMessage,
-    })
-    .eq("id", needId)
-    .eq("status", "submitted");
-  if (error) {
-    throw new Error(error.message);
-  }
-  revalidatePath("/admin");
-  revalidatePath("/admin/needs");
-  revalidatePath("/teacher/dashboard");
-} 
   if (error) {
 
     return (
@@ -233,7 +324,10 @@ async function requestChanges(formData: FormData) {
 
       {!needs || needs.length === 0 ? (
 <div className="card">
-<p className="muted">There are no submitted needs waiting for review.</p>
+<p className="muted">
+
+            There are no submitted needs waiting for review.
+</p>
 </div>
 
       ) : (
@@ -246,6 +340,10 @@ async function requestChanges(formData: FormData) {
             need={need}
 
             approveNeed={approveNeed}
+
+            requestChanges={requestChanges}
+
+            rejectNeed={rejectNeed}
 
           />
 
@@ -263,6 +361,10 @@ async function NeedReviewCard({
   need,
 
   approveNeed,
+
+  requestChanges,
+
+  rejectNeed,
 
 }: {
 
@@ -289,6 +391,10 @@ async function NeedReviewCard({
   };
 
   approveNeed: (formData: FormData) => Promise<void>;
+
+  requestChanges: (formData: FormData) => Promise<void>;
+
+  rejectNeed: (formData: FormData) => Promise<void>;
 
 }) {
 
@@ -452,67 +558,54 @@ async function NeedReviewCard({
           Approve classroom need
 </button>
 </form>
-<form action={requestChanges} style={{ marginTop: "12px" }}>
+<form action={requestChanges} style={{ marginTop: "20px" }}>
 <input type="hidden" name="needId" value={need.id} />
 <label htmlFor={`correction-${need.id}`}>
 
-    Reason for requested changes
+          Reason for requested changes
 </label>
 <textarea
 
-    id={`correction-${need.id}`}
+          id={`correction-${need.id}`}
 
-    name="correctionMessage"
+          name="correctionMessage"
 
-    rows={3}
+          rows={3}
 
-    placeholder="Example: Please review the estimated unit cost. ₱3,000 per notebook appears unusually high."
+          placeholder="Example: Please review the estimated unit cost. ₱3,000 per notebook appears unusually high."
 
-    required
+          required
 
-  />
+        />
 <button className="btn" type="submit" style={{ marginTop: "10px" }}>
 
-    Request changes
+          Request changes
 </button>
 </form>
-
-async function rejectNeed(formData: FormData) {
-  "use server";
-  const needId = String(formData.get("needId") || "");
-  const rejectionMessage = String(
-    formData.get("rejectionMessage") || ""
-  ).trim();
-  if (!rejectionMessage) {
-    throw new Error("Please provide a reason for rejection.");
-  }
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    redirect("/teacher/sign-in");
-  }
-
- 
- <form action={rejectNeed} style={{ marginTop: "12px" }}>
+<form action={rejectNeed} style={{ marginTop: "20px" }}>
 <input type="hidden" name="needId" value={need.id} />
 <label htmlFor={`rejection-${need.id}`}>
-    Reason for rejection
+
+          Reason for rejection
 </label>
 <textarea
-    id={`rejection-${need.id}`}
-    name="rejectionMessage"
-    rows={3}
-    placeholder="Example: This request does not meet GBTS classroom-need guidelines."
-    required
-  />
+
+          id={`rejection-${need.id}`}
+
+          name="rejectionMessage"
+
+          rows={3}
+
+          placeholder="Example: This request does not meet GBTS classroom-need guidelines."
+
+          required
+
+        />
 <button className="btn" type="submit" style={{ marginTop: "10px" }}>
-    Reject request
+
+          Reject request
 </button>
 </form>
- 
-  
 </article>
 
   );
