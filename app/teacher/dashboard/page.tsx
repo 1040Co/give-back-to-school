@@ -565,7 +565,7 @@ if (
 <span className="status-badge">Completed</span>
 </div>
 <h3>{need.title}</h3>
-<div className="need-meta">
+<div className="history-card-meta">
 <span>
 <strong>{need.learners_benefiting || 0}</strong>
 <small>Learners</small>
@@ -578,12 +578,16 @@ if (
 </span>
 </div>
          {need.fulfilment_note ? (
-<p className="muted">{need.fulfilment_note}</p>
+<p className="muted history-card-note">{need.fulfilment_note}</p>
          ) : null}
+<div className="history-card-actions">
 <Link className="text-link" href={`/needs/${need.id}`}>
-           View completed request →
+   View completed request →
 </Link>
-{(() => {
+ {(() => {
+   ...
+ })()}
+</div>
   const commitment = Array.isArray(need.commitments)
     ? need.commitments.find((item: any) => item.status === "completed") ||
       need.commitments[0]
