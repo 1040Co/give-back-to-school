@@ -132,9 +132,13 @@ let conversationMessages: {
    title,
    learners_benefiting,
    estimated_value,
-   status,
-   completed_at,
-   fulfilment_note
+  status,
+  completed_at,
+fulfilment_note,
+commitments (
+  id,
+  status
+) 
    `
  )
  .eq("teacher_profile_id", teacherProfile.id)
@@ -579,6 +583,23 @@ if (
 <Link className="text-link" href={`/needs/${need.id}`}>
            View completed request →
 </Link>
+{(() => {
+  const commitment = Array.isArray(need.commitments)
+    ? need.commitments.find((item: any) => item.status === "completed") ||
+      need.commitments[0]
+    : need.commitments;
+  return commitment ? (
+<Link
+      className="text-link"
+      href={`/teacher/commitments/${commitment.id}`}
+>
+      View conversation →
+</Link>
+  ) : null;
+})()}
+ 
+
+ 
 </article>
      ))}
 </div>
