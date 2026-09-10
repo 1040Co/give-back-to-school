@@ -25,27 +25,14 @@ export default async function TeacherPage() {
 <p className="muted">
 
         Verified teachers can submit requests for specific goods needed by
-
         their learners. Give Back to School does not collect or hold money for
-
         individual classroom requests.
 </p>
-<div className="verification-warning">
-<strong>Teacher verification not yet submitted</strong>
-<p>
-   Your email is confirmed. Complete your teacher verification so GBTS can
-   review your account before you submit a classroom need.
-</p>
-<Link className="btn" href="/teacher/verification">
-   Start teacher verification
-</Link>
-</div>
 <div className="card">
 <h2>Already registered?</h2>
 <p className="muted">
 
           Sign in to view your teacher profile, verification status and
-
           classroom requests.
 </p>
 <Link className="btn" href="/teacher/sign-in">
@@ -58,11 +45,9 @@ export default async function TeacherPage() {
 <p className="muted">
 
           Create an account, add your school information and submit your
-
           verification privately.
 </p>
 <Link className="btn" href="/teacher/register">
-
           Register as a teacher
 </Link>
 </div>
