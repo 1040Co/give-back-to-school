@@ -350,8 +350,21 @@ form.card label:has(input[type="checkbox"]) {
   color: var(--gbts-danger-text);
   font-weight: 600;
 }
-
-/* =========================================================
+.verification-warning {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid #f3b7b7;
+  border-radius: 16px;
+  background: #fff1f1;
+}
+.verification-warning strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.verification-warning p {
+  margin: 0 0 1rem;
+}
+ /* =========================================================
    HOMEPAGE — PILOT / IMPACT / NEEDS
    ========================================================= */
 
