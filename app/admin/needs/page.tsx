@@ -73,63 +73,34 @@ export default async function AdminNeedsPage() {
     .order("submitted_at", { ascending: true });
 
   async function approveNeed(formData: FormData) {
-
     "use server";
-
     const needId = String(formData.get("needId") || "");
-
     const supabase = await createClient();
-
     const {
-
       data: { user },
-
     } = await supabase.auth.getUser();
-
     if (!user) {
-
       redirect("/teacher/sign-in");
-
     }
-
     const { data: profile } = await supabase
-
       .from("profiles")
-
       .select("role")
-
       .eq("id", user.id)
-
       .maybeSingle();
-
     if (!profile || profile.role !== "admin") {
-
       throw new Error("Unauthorized");
-
     }
-
     const { error } = await supabase
-
       .from("needs")
-
       .update({
-
         status: "approved",
-
         approved_at: new Date().toISOString(),
-
       })
-
       .eq("id", needId)
-
       .eq("status", "submitted");
-
     if (error) {
-
       throw new Error(error.message);
-
     }
-
     revalidatePath("/admin");
     revalidatePath("/admin/needs");
     revalidatePath("/needs");
@@ -213,7 +184,29 @@ async function requestChanges(formData: FormData) {
   revalidatePath("/teacher/dashboard");
 
 }
- 
+ const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (!profile || profile.role !== "admin") {
+    throw new Error("Unauthorized");
+  }
+  const { error } = await supabase
+    .from("needs")
+    .update({
+      status: "rejected",
+      correction_message: rejectionMessage,
+    })
+    .eq("id", needId)
+    .eq("status", "submitted");
+  if (error) {
+    throw new Error(error.message);
+  }
+  revalidatePath("/admin");
+  revalidatePath("/admin/needs");
+  revalidatePath("/teacher/dashboard");
+} 
   if (error) {
 
     return (
@@ -484,88 +477,24 @@ async function NeedReviewCard({
 </button>
 </form>
 
-  }
-  const { error } = await supabase
-    .from("needs")
-    .update({
-      status: "rejected",
-      correction_message: rejectionMessage,
-    })
-    .eq("id", needId)
-    .eq("status", "submitted");
-  if (error) {
-    throw new Error(error.message);
-  }
-  revalidatePath("/admin");
-  revalidatePath("/admin/needs");
-  revalidatePath("/teacher/dashboard");
-}
-
 async function rejectNeed(formData: FormData) {
-
   "use server";
-
   const needId = String(formData.get("needId") || "");
-
   const rejectionMessage = String(
-
     formData.get("rejectionMessage") || ""
-
   ).trim();
-
   if (!rejectionMessage) {
-
     throw new Error("Please provide a reason for rejection.");
-
   }
-
   const supabase = await createClient();
-
   const {
-
     data: { user },
-
   } = await supabase.auth.getUser();
-
   if (!user) {
-
     redirect("/teacher/sign-in");
-
   }
 
-  const { data: profile } = await supabase
-
-    .from("profiles")
-
-    .select("role")
-
-    .eq("id", user.id)
-
-    .maybeSingle();
-
-  if (!profile || profile.role !== "admin") {
-
-    throw new Error("Unauthorized");
-
-  }
-  const { error } = await supabase
-    .from("needs")
-    .update({
-      status: "rejected",
-      correction_message: rejectionMessage,
-    })
-    .eq("id", needId)
-    .eq("status", "submitted");
-  if (error) {
-    throw new Error(error.message);
-  }
-  revalidatePath("/admin");
-  revalidatePath("/admin/needs");
-  revalidatePath("/teacher/dashboard");
-}
  
-
-  
  <form action={rejectNeed} style={{ marginTop: "12px" }}>
 <input type="hidden" name="needId" value={need.id} />
 <label htmlFor={`rejection-${need.id}`}>
