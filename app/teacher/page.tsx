@@ -30,9 +30,15 @@ export default async function TeacherPage() {
 
         individual classroom requests.
 </p>
-<div className="callout">
-
-        Teacher verification is required before a school need can be submitted.
+<div className="verification-warning">
+<strong>Teacher verification not yet submitted</strong>
+<p>
+   Your email is confirmed. Complete your teacher verification so GBTS can
+   review your account before you submit a classroom need.
+</p>
+<Link className="btn" href="/teacher/verification">
+   Start teacher verification
+</Link>
 </div>
 <div className="card">
 <h2>Already registered?</h2>
