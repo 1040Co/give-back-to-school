@@ -483,7 +483,25 @@ async function NeedReviewCard({
     Request changes
 </button>
 </form>
- async function rejectNeed(formData: FormData) {
+
+  }
+  const { error } = await supabase
+    .from("needs")
+    .update({
+      status: "rejected",
+      correction_message: rejectionMessage,
+    })
+    .eq("id", needId)
+    .eq("status", "submitted");
+  if (error) {
+    throw new Error(error.message);
+  }
+  revalidatePath("/admin");
+  revalidatePath("/admin/needs");
+  revalidatePath("/teacher/dashboard");
+}
+
+async function rejectNeed(formData: FormData) {
 
   "use server";
 
@@ -528,6 +546,7 @@ async function NeedReviewCard({
   if (!profile || profile.role !== "admin") {
 
     throw new Error("Unauthorized");
+
   }
   const { error } = await supabase
     .from("needs")
@@ -544,6 +563,9 @@ async function NeedReviewCard({
   revalidatePath("/admin/needs");
   revalidatePath("/teacher/dashboard");
 }
+ 
+
+  
  <form action={rejectNeed} style={{ marginTop: "12px" }}>
 <input type="hidden" name="needId" value={need.id} />
 <label htmlFor={`rejection-${need.id}`}>
