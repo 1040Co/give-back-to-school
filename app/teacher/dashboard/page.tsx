@@ -582,25 +582,35 @@ if (
          ) : null}
 <div className="history-card-actions">
 <Link className="text-link" href={`/needs/${need.id}`}>
-   View completed request →
+
+    View completed request →
 </Link>
- {(() => {
-   ...
- })()}
-</div>
-  const commitment = Array.isArray(need.commitments)
-    ? need.commitments.find((item: any) => item.status === "completed") ||
-      need.commitments[0]
-    : need.commitments;
-  return commitment ? (
+
+  {(() => {
+
+    const commitment = Array.isArray(need.commitments)
+
+      ? need.commitments.find((item: any) => item.status === "completed") ||
+
+        need.commitments[0]
+
+      : need.commitments;
+
+    return commitment ? (
 <Link
-      className="text-link"
-      href={`/teacher/commitments/${commitment.id}`}
+
+        className="text-link"
+
+        href={`/teacher/commitments/${commitment.id}`}
 >
-      View conversation →
+
+        View conversation →
 </Link>
-  ) : null;
-})()}
+
+    ) : null;
+
+  })()}
+</div>
  
 
  
