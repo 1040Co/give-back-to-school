@@ -439,10 +439,16 @@ if (
                  new verification information.
 </p>
              ) : (
-<p className="muted">
-                 Verification is required before you can submit a classroom
-                 need.
+<div className="verification-warning">
+<strong>Action required: Submit your teacher verification</strong>
+<p>
+
+    Your teacher profile is ready. Submit your verification details for GBTS
+
+    review. Classroom requests will unlock after your verification is approved.
 </p>
+</div>
+ 
              )}
 </div>
            {!teacherVerified &&
