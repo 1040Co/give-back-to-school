@@ -38,7 +38,7 @@ const { data: teacherProfileGuard } = await supabase
  .eq("user_id", user.id)
  .maybeSingle();
 if (!teacherProfileGuard) {
- redirect("/teacher");
+ redirect("/teacher/profile");
 }
  const { data: accountProfile } = await supabase
    .from("profiles")
