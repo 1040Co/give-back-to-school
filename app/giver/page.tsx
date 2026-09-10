@@ -195,10 +195,10 @@ if (teacherProfile?.user_id) {
 </span>
 </div>
 <Link
-             className="text-link"
-             href={`/needs/${item.need_id}`}
+ className="text-link"
+ href={`/giver/commitments/${item.id}`}
 >
-             View classroom need →
+ Manage commitment →
 </Link>
 </article>
        );
