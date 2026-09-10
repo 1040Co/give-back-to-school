@@ -15,6 +15,7 @@ export default async function TeacherPage() {
  if (teacherProfile) {
    redirect("/teacher/dashboard");
  }
+ redirect("/teacher/profile");
 }
   return (
  
