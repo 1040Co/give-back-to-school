@@ -131,17 +131,89 @@ export default async function AdminNeedsPage() {
     }
 
     revalidatePath("/admin");
-
     revalidatePath("/admin/needs");
-
     revalidatePath("/needs");
-
     revalidatePath("/");
-
     revalidatePath("/teacher/dashboard");
+  }
+async function requestChanges(formData: FormData) {
+
+  "use server";
+
+  const needId = String(formData.get("needId") || "");
+
+  const correctionMessage = String(
+
+    formData.get("correctionMessage") || ""
+
+  ).trim();
+
+  if (!correctionMessage) {
+
+    throw new Error("Please provide a reason for the requested changes.");
 
   }
 
+  const supabase = await createClient();
+
+  const {
+
+    data: { user },
+
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+
+    redirect("/teacher/sign-in");
+
+  }
+
+  const { data: profile } = await supabase
+
+    .from("profiles")
+
+    .select("role")
+
+    .eq("id", user.id)
+
+    .maybeSingle();
+
+  if (!profile || profile.role !== "admin") {
+
+    throw new Error("Unauthorized");
+
+  }
+
+  const { error } = await supabase
+
+    .from("needs")
+
+    .update({
+
+      status: "correction_required",
+
+      correction_message: correctionMessage,
+
+    })
+
+    .eq("id", needId)
+
+    .eq("status", "submitted");
+
+  if (error) {
+
+    throw new Error(error.message);
+
+  }
+
+  revalidatePath("/admin");
+
+  revalidatePath("/admin/needs");
+
+  revalidatePath("/teacher/dashboard");
+
+}
+ 
   if (error) {
 
     return (
@@ -387,6 +459,109 @@ async function NeedReviewCard({
           Approve classroom need
 </button>
 </form>
+<form action={requestChanges} style={{ marginTop: "12px" }}>
+<input type="hidden" name="needId" value={need.id} />
+<label htmlFor={`correction-${need.id}`}>
+
+    Reason for requested changes
+</label>
+<textarea
+
+    id={`correction-${need.id}`}
+
+    name="correctionMessage"
+
+    rows={3}
+
+    placeholder="Example: Please review the estimated unit cost. ₱3,000 per notebook appears unusually high."
+
+    required
+
+  />
+<button className="btn" type="submit" style={{ marginTop: "10px" }}>
+
+    Request changes
+</button>
+</form>
+ async function rejectNeed(formData: FormData) {
+
+  "use server";
+
+  const needId = String(formData.get("needId") || "");
+
+  const rejectionMessage = String(
+
+    formData.get("rejectionMessage") || ""
+
+  ).trim();
+
+  if (!rejectionMessage) {
+
+    throw new Error("Please provide a reason for rejection.");
+
+  }
+
+  const supabase = await createClient();
+
+  const {
+
+    data: { user },
+
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+
+    redirect("/teacher/sign-in");
+
+  }
+
+  const { data: profile } = await supabase
+
+    .from("profiles")
+
+    .select("role")
+
+    .eq("id", user.id)
+
+    .maybeSingle();
+
+  if (!profile || profile.role !== "admin") {
+
+    throw new Error("Unauthorized");
+  }
+  const { error } = await supabase
+    .from("needs")
+    .update({
+      status: "rejected",
+      correction_message: rejectionMessage,
+    })
+    .eq("id", needId)
+    .eq("status", "submitted");
+  if (error) {
+    throw new Error(error.message);
+  }
+  revalidatePath("/admin");
+  revalidatePath("/admin/needs");
+  revalidatePath("/teacher/dashboard");
+}
+ <form action={rejectNeed} style={{ marginTop: "12px" }}>
+<input type="hidden" name="needId" value={need.id} />
+<label htmlFor={`rejection-${need.id}`}>
+    Reason for rejection
+</label>
+<textarea
+    id={`rejection-${need.id}`}
+    name="rejectionMessage"
+    rows={3}
+    placeholder="Example: This request does not meet GBTS classroom-need guidelines."
+    required
+  />
+<button className="btn" type="submit" style={{ marginTop: "10px" }}>
+    Reject request
+</button>
+</form>
+ 
+  
 </article>
 
   );
