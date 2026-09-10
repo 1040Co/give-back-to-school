@@ -180,7 +180,7 @@ if (teacherProfile?.user_id) {
 </span>
 </div>
 <h3>{need?.title || "Classroom need"}</h3>
-<div className="need-meta">
+<div className="history-card-meta">
 <span>
 <strong>{need?.learners_benefiting || 0}</strong>
 <small>Learners</small>
@@ -320,9 +320,7 @@ if (teacherProfile?.user_id) {
       confirm that the classroom received them.
 </p>
 <p className="muted">
-
       You can continue communicating with the teacher below while confirmation
-
       is pending.
 </p>
 </div>
@@ -331,7 +329,6 @@ if (teacherProfile?.user_id) {
  
  
   </section>
-
           {conversationId ? (
             <GiverMessagePanel
  conversationId={conversationId}
@@ -367,7 +364,7 @@ if (teacherProfile?.user_id) {
 <span className="status-badge">Completed</span>
 </div>
 <h3>{need?.title || "Classroom need"}</h3>
-<div className="need-meta">
+<div className="history-card-meta">
 <span>
 <strong>{need?.learners_benefiting || 0}</strong>
 <small>Learners</small>
@@ -386,7 +383,7 @@ if (teacherProfile?.user_id) {
 </div>
 
             {commitment.completed_at ? (
-<p className="muted">
+<p className="muted history-card-note">
 
                 Completed on{" "}
 
@@ -406,7 +403,8 @@ if (teacherProfile?.user_id) {
 </p>
 
             ) : null}
-<Link
+<div className="history-card-actions">
+  <Link
               className="text-link"
               href={`/needs/${commitment.need_id}`}
 >
@@ -418,6 +416,7 @@ if (teacherProfile?.user_id) {
 >
  View conversation →
 </Link>
+</div>
 </article>
 
         );
