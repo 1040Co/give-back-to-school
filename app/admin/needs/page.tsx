@@ -558,30 +558,31 @@ async function NeedReviewCard({
           Approve classroom need
 </button>
 </form>
-<form action={rejectNeed} className="moderation-form">
+<form action={requestChanges} className="moderation-form">
 <input type="hidden" name="needId" value={need.id} />
-<label htmlFor={`rejection-${need.id}`}>
+<label htmlFor={`correction-${need.id}`}>
 
-    Reason for rejection
+    Reason for requested changes
 </label>
 <textarea
 
-    id={`rejection-${need.id}`}
+    id={`correction-${need.id}`}
 
-    name="rejectionMessage"
+    name="correctionMessage"
 
     rows={4}
 
-    placeholder="Example: This request does not meet GBTS classroom-need guidelines."
+    placeholder="Example: Please review the estimated unit cost. ₱3,000 per notebook appears unusually high."
 
     required
 
   />
 <button className="btn" type="submit">
 
-    Reject request
+    Request changes
 </button>
 </form>
+ 
  
 <form action={rejectNeed} className="moderation-form">
 <input type="hidden" name="needId" value={need.id} />
