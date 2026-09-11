@@ -322,6 +322,44 @@ form.card label:has(input[type="checkbox"]) {
   align-items: flex-start;
   gap: 10px;
 }
+.moderation-form {
+
+  margin-top: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+
+}
+
+.moderation-form label {
+
+  font-weight: 600;
+
+}
+
+.moderation-form textarea {
+
+  width: 100%;
+
+  min-height: 110px;
+
+  padding: 12px;
+
+  resize: vertical;
+
+  box-sizing: border-box;
+
+}
+
+.moderation-form .btn {
+
+  align-self: flex-start;
+
+}
+ 
 
 /* =========================================================
    CALLOUTS / ALERTS
