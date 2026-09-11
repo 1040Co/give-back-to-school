@@ -558,54 +558,56 @@ async function NeedReviewCard({
           Approve classroom need
 </button>
 </form>
-<form action={requestChanges} style={{ marginTop: "20px" }}>
-<input type="hidden" name="needId" value={need.id} />
-<label htmlFor={`correction-${need.id}`}>
-
-          Reason for requested changes
-</label>
-<textarea
-
-          id={`correction-${need.id}`}
-
-          name="correctionMessage"
-
-          rows={3}
-
-          placeholder="Example: Please review the estimated unit cost. ₱3,000 per notebook appears unusually high."
-
-          required
-
-        />
-<button className="btn" type="submit" style={{ marginTop: "10px" }}>
-
-          Request changes
-</button>
-</form>
-<form action={rejectNeed} style={{ marginTop: "20px" }}>
+<form action={rejectNeed} className="moderation-form">
 <input type="hidden" name="needId" value={need.id} />
 <label htmlFor={`rejection-${need.id}`}>
 
-          Reason for rejection
+    Reason for rejection
 </label>
 <textarea
 
-          id={`rejection-${need.id}`}
+    id={`rejection-${need.id}`}
 
-          name="rejectionMessage"
+    name="rejectionMessage"
 
-          rows={3}
+    rows={4}
 
-          placeholder="Example: This request does not meet GBTS classroom-need guidelines."
+    placeholder="Example: This request does not meet GBTS classroom-need guidelines."
 
-          required
+    required
 
-        />
-<button className="btn" type="submit" style={{ marginTop: "10px" }}>
+  />
+<button className="btn" type="submit">
 
-          Reject request
+    Reject request
 </button>
 </form>
+ 
+<form action={rejectNeed} className="moderation-form">
+<input type="hidden" name="needId" value={need.id} />
+<label htmlFor={`rejection-${need.id}`}>
+
+    Reason for rejection
+</label>
+<textarea
+
+    id={`rejection-${need.id}`}
+
+    name="rejectionMessage"
+
+    rows={4}
+
+    placeholder="Example: This request does not meet GBTS classroom-need guidelines."
+
+    required
+
+  />
+<button className="btn" type="submit">
+
+    Reject request
+</button>
+</form>
+ 
 </article>
 
   );
