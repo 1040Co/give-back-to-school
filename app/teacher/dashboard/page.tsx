@@ -478,6 +478,23 @@ if (
 <p className="muted">
                  {needStatusMessage(activeNeed.status)}
 </p>
+ {activeNeed.status === "correction_required" ? (
+  <div className="verification-warning" style={{ marginTop: "16px" }}>
+    <strong>Action required: Update this request</strong>
+
+    <p>
+      GBTS has requested changes to this classroom need. Review the feedback,
+      update the request, and resubmit it for approval.
+    </p>
+
+    <Link
+      className="btn"
+      href={`/teacher/needs/${activeNeed.id}/edit`}
+    >
+      Edit and resubmit
+    </Link>
+  </div>
+) : null}
 <div className="request-summary">
 <div>
 <span>Learners benefiting</span>
