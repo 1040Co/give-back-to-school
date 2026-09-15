@@ -71,11 +71,9 @@ if (!teacherProfileGuard) {
  let school = null;
 let activeNeed = null;
 let completedNeeds = 0;
-
+let rejectNeed: any = null;
 let pastNeeds: any[] = [];
-
 let conversationId = "";
-
 let conversationMessages: {
   id: string;
   sender_id: string;
@@ -118,7 +116,7 @@ let conversationMessages: {
      .limit(1)
      .maybeSingle();
    activeNeed = data;
-  const { data: rejectedNeed } = await supabase
+  const { data: rejectedNeedData } = await supabase
   .from("needs")
   .select(`
     id,
@@ -134,6 +132,7 @@ let conversationMessages: {
   .order("submitted_at", { ascending: false })
   .limit(1)
   .maybeSingle();
+  rejectNeed = rejectNeedData;
    const { count } = await supabase
      .from("needs")
      .select("id", { count: "exact", head: true })
