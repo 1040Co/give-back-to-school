@@ -132,7 +132,7 @@ let conversationMessages: {
   .order("submitted_at", { ascending: false })
   .limit(1)
   .maybeSingle();
-  rejectNeed = rejectNeedData;
+  rejectedNeed = rejectNeedData;
    const { count } = await supabase
      .from("needs")
      .select("id", { count: "exact", head: true })
