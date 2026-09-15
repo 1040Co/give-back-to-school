@@ -71,7 +71,7 @@ if (!teacherProfileGuard) {
  let school = null;
 let activeNeed = null;
 let completedNeeds = 0;
-let rejectNeed: any = null;
+let rejectedNeed: any = null;
 let pastNeeds: any[] = [];
 let conversationId = "";
 let conversationMessages: {
