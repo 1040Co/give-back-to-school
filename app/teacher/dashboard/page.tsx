@@ -118,6 +118,22 @@ let conversationMessages: {
      .limit(1)
      .maybeSingle();
    activeNeed = data;
+  const { data: rejectedNeed } = await supabase
+  .from("needs")
+  .select(`
+    id,
+    title,
+    learners_benefiting,
+    estimated_value,
+    status,
+    correction_message,
+    submitted_at
+  `)
+  .eq("teacher_profile_id", teacherProfile.id)
+  .eq("status", "rejected")
+  .order("submitted_at", { ascending: false })
+  .limit(1)
+  .maybeSingle();
    const { count } = await supabase
      .from("needs")
      .select("id", { count: "exact", head: true })
@@ -567,6 +583,33 @@ if (
 </>
            )}
 </section>
+{rejectedNeed ? (
+<section className="card" style={{ marginTop: "20px" }}>
+<div className="dashboard-section-heading">
+<div>
+<div className="eyebrow">Rejected classroom request</div>
+<h2>{rejectedNeed.title}</h2>
+</div>
+<span className="dashboard-badge dashboard-badge-pending">
+
+        Rejected
+</span>
+</div>
+<div className="verification-warning">
+<strong>This request was not approved</strong>
+<p>
+        {rejectedNeed.correction_message ||
+          "GBTS could not approve this classroom request."}
+</p>
+</div>
+<p className="muted">
+      This request is closed. You may submit a new classroom need when ready.
+</p>
+<Link className="btn" href="/teacher/needs/new">
+      Create a new school need
+</Link>
+</section>
+) : null}
 <section className="section">
 <div className="section-heading">
 <div>
